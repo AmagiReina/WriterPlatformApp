@@ -1,0 +1,60 @@
+﻿@model WriterPlatformApp.WEB.ViewModels.TitleViewModel
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    @Html.HiddenFor(model => model.Id)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TitleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TitleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PublicationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublicationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GenreId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GenreId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfilesId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserProfilesId)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@Scripts.Render("~/bundles/ajaxmessagescript")
+@Scripts.Render("~/bundles/moment")
+<div id="commentSection">
+
+</div>

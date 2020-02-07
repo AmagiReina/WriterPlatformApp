@@ -1,0 +1,26 @@
+﻿@model WriterPlatformApp.WEB.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Вход на сайт</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary()
+        <p>
+            <label>UserName</label><br />
+            @Html.EditorFor(x => x.UserName, new { htmlAttributes = new { @class = "form-control" } })
+        </p>
+        <p>
+            <label>Пароль</label><br />
+            @Html.EditorFor(x => x.Password, new { htmlAttributes = new { @class = "form-control" } })
+        </p>
+        <p><button type="submit">Войти</button></p>
+    </div>
+}
+
