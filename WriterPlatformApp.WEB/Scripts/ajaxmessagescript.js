@@ -12,7 +12,7 @@ function getAllMessages() {
     let id = $('#Id').val();
     console.log(id);
     $.ajax({
-        type: "GET",
+        type: "POST",
         datatype: "json",
         url: "/Message/Index/",
         data: {

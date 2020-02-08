@@ -11,7 +11,7 @@ namespace WriterPlatformApp.DAL.DB
 
         public ApplicationContext() : base("name=WriterPlatformDb")
         {
-            Database.SetInitializer(new DbInitializer());
+           
         }
 
 
@@ -26,15 +26,6 @@ namespace WriterPlatformApp.DAL.DB
         public virtual DbSet<Rating> Ratings { get; set; }
 
     
-    }
-
-
-    class DbInitializer : CreateDatabaseIfNotExists<ApplicationContext>
-    {
-        protected override void Seed(ApplicationContext dbContext)
-        {
-            
-        }
     }
 }
 

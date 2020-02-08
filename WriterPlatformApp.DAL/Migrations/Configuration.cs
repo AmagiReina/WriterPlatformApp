@@ -23,62 +23,56 @@
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
 
-            var roleUser = new IdentityRole { Name = "user" };
-            var roleAdmin = new IdentityRole { Name = "admin" };
-
-            db.Roles.AddOrUpdate (
-               roleUser, roleAdmin       
-            );
-
-            var adminIdentity = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-            string password = "Qwerty_12";
-            var admin = new ApplicationUser { Email = "admin@mail.ru", UserName = "Admin" };
-
-            db.UserProfiles.AddOrUpdate (
-                new UserProfile { 
-                    ApplicationUser = admin,
-                    UserName = admin.UserName,
-                    Email = admin.Email,
-                    Password = admin.PasswordHash,
-                    isLocked = admin.IsLocked,
-                    Role = roleAdmin.Name
-                }
-            );
-
-            db.Genres.AddOrUpdate(
-                new Genre { GenreName = "Повесть" },
-                new Genre { GenreName = "Роман" },
-                new Genre { GenreName = "Рассказ" },
-                new Genre { GenreName = "Новелла" },
-                new Genre { GenreName = "Притча" },
-                new Genre { GenreName = "Сказка" },
-                new Genre { GenreName = "Комедия" },
-                new Genre { GenreName = "Трагедия" },
-                new Genre { GenreName = "Драма" }
-            );
-
-            var result = adminIdentity.Create(admin, password);
-            if (result.Succeeded)
+            if (db.Users.Where(x => x.UserName == "Admin").FirstOrDefault() == null)
             {
-                adminIdentity.AddToRole(admin.Id, db.Roles.Where(r => r.Name == "admin").FirstOrDefault().Name);
-            }
+                var roleUser = new IdentityRole { Name = "user" };
+                var roleAdmin = new IdentityRole { Name = "admin" };
 
-            db.Titles.AddOrUpdate(
-                new Title { 
-                    TitleName = "Test", 
-                    PublicationDate = DateTime.Now,
-                    Rating = 9, 
-                    GenreId = 3, 
-                    UserProfilesId = admin.Id},
-                new Title
+                db.Roles.AddOrUpdate(roleUser);
+
+                db.Roles.AddOrUpdate(roleAdmin);
+
+                var adminIdentity = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+                string password = "Qwerty_12";
+                var admin = new ApplicationUser { Email = "admin@mail.ru", UserName = "Admin" };
+                var result = adminIdentity.Create(admin, password);
+                if (result.Succeeded)
                 {
-                    TitleName = "Test1",
-                    PublicationDate = DateTime.Now,
-                    Rating = 6,
-                    GenreId = 2,
-                    UserProfilesId = admin.Id
+                    adminIdentity.AddToRole(admin.Id, db.Roles.Where(r => r.Name == "admin").FirstOrDefault().Name);
                 }
-                );
+
+                db.Titles.AddOrUpdate(
+                        new Title
+                        {
+                            TitleName = "Test",
+                            PublicationDate = DateTime.Now,
+                            Rating = 9,
+                            GenreId = 3,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test1",
+                            PublicationDate = DateTime.Now,
+                            Rating = 6,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        }
+                        );
+
+                db.UserProfiles.AddOrUpdate(
+                          new UserProfile
+                          {
+                              ApplicationUser = admin,
+                              UserName = admin.UserName,
+                              Email = admin.Email,
+                              Password = admin.PasswordHash,
+                              isLocked = admin.IsLocked,
+                              Role = roleAdmin.Name
+                          }
+                      );
+
+            }
 
         }
     }
