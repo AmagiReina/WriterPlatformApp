@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using Ninject;
+﻿using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
 using System.Web.Mvc;
 using WriterPlatformApp.BLL.DI;
 using WriterPlatformApp.BLL.Implementatiton;
-using WriterPlatformApp.WEB.Modules;
 
 namespace WriterPlatformApp.WEB.App_Start
 {
@@ -25,6 +23,16 @@ namespace WriterPlatformApp.WEB.App_Start
         public static GenreBOImpl GetGenreBO()
         {
             return kernel.Get<GenreBOImpl>();
+        }
+
+        public static RatingBOImpl GetRatingBO()
+        {
+            return kernel.Get<RatingBOImpl>();
+        }
+
+        public static RatingTypeBOImpl GetRatingTypeBO()
+        {
+            return kernel.Get<RatingTypeBOImpl>();
         }
 
         public static MessageBOImpl GetMessageBO()

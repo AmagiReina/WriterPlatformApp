@@ -74,6 +74,32 @@
 
             }
 
+            db.Genres.AddOrUpdate(
+                new Genre { GenreName = "Повесть" },
+                new Genre { GenreName = "Роман" },
+                new Genre { GenreName = "Рассказ" },
+                new Genre { GenreName = "Новелла" },
+                new Genre { GenreName = "Притча" },
+                new Genre { GenreName = "Сказка" },
+                new Genre { GenreName = "Комедия" },
+                new Genre { GenreName = "Трагедия" },
+                new Genre { GenreName = "Драма" }
+            );
+
+
+            db.RatingTypes.AddOrUpdate(
+                new RatingType { RatingNumber = 1 },
+                new RatingType { RatingNumber = 2 },
+                new RatingType { RatingNumber = 3 },
+                new RatingType { RatingNumber = 4 },
+                new RatingType { RatingNumber = 5 },
+                new RatingType { RatingNumber = 6 },
+                new RatingType { RatingNumber = 7 },
+                new RatingType { RatingNumber = 8 },
+                new RatingType { RatingNumber = 9 },
+                new RatingType { RatingNumber = 10 }
+              );
+
         }
     }
 }

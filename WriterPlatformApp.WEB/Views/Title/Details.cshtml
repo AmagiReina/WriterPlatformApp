@@ -1,6 +1,10 @@
 ﻿@model WriterPlatformApp.WEB.ViewModels.TitleViewModel
 
-<h2>Details</h2>
+@{
+    ViewBag.Title = Model.TitleName.Trim();
+}
+
+<h2>Информация о @Html.DisplayFor(model => model.TitleName)</h2>
 
 <div>
     <hr />
@@ -31,28 +35,31 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GenreId)
+            @Html.DisplayNameFor(model => model.Genres.GenreName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.GenreId)
+            @Html.DisplayFor(model => model.Genres.GenreName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserProfilesId)
+            @Html.DisplayNameFor(model => model.UserProfiles.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UserProfilesId)
+            @Html.DisplayFor(model => model.UserProfiles.UserName)
         </dd>
 
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад", "Index")
 </p>
+@Scripts.Render("~/bundles/ajaxratingscript")
+<div id="ratingSection">
+
+</div>
 @Scripts.Render("~/bundles/ajaxmessagescript")
 @Scripts.Render("~/bundles/moment")
 <div id="commentSection">

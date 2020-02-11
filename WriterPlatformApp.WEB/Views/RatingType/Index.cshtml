@@ -1,0 +1,15 @@
+﻿@model IEnumerable<WriterPlatformApp.WEB.ViewModels.RatingTypeViewModel>
+
+<div class="form-group">
+    <label for="ratingSelect">Ваш рейтинг:</label>
+    <select class="form-control" id="ratingSelect">
+        @foreach (var item in Model)
+        {
+        <option class="rating" id=@item.Id value=@item.RatingNumber>
+            @item.RatingNumber
+        </option>
+        }
+    </select>
+    <br/>
+    <button type="submit" id="RatingSubmit" class="btn btn-primary">Submit</button>
+</div>

@@ -96,6 +96,8 @@
   <ItemGroup>
     <Compile Include="BO\GenreBO.cs" />
     <Compile Include="BO\MessageBO.cs" />
+    <Compile Include="BO\RatingBO.cs" />
+    <Compile Include="BO\RatingTypeBO.cs" />
     <Compile Include="BO\TitleBO.cs" />
     <Compile Include="BO\UserBO.cs" />
     <Compile Include="DI\BusinessModule.cs" />
@@ -105,6 +107,8 @@
     <Compile Include="Implementatiton\GenreBOImpl.cs" />
     <Compile Include="Identity\IUserBOImpl.cs" />
     <Compile Include="Implementatiton\MessageBOImpl.cs" />
+    <Compile Include="Implementatiton\RatingBOImpl.cs" />
+    <Compile Include="Implementatiton\RatingTypeBOImpl.cs" />
     <Compile Include="Implementatiton\TitleBOImpl.cs" />
     <Compile Include="Identity\UserBOImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

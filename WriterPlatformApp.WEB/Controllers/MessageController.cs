@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WriterPlatformApp.BLL.BO;
 using WriterPlatformApp.BLL.Implementatiton;
@@ -22,13 +21,12 @@ namespace WriterPlatformApp.WEB.Controllers
             this.mapper = mapper;
         }
 
-        public ActionResult Index(int id)
+        public async Task<ActionResult> Index(int id)
         {
-            var messages = messageBo.GetMessagesByTitle(id);
+            var messages = await messageBo.GetMessagesAsync(id);
 
             var viewModel = mapper.Map<IEnumerable<MessageBO>,List<MessageViewModel>>
                 (messages);
-
 
             return PartialView(viewModel);
         }
@@ -40,6 +38,7 @@ namespace WriterPlatformApp.WEB.Controllers
             return PartialView();
         }
 
+        [HttpPost]
         public JsonResult Add(MessageViewModel model)
         {
             if (ModelState.IsValid)
@@ -49,7 +48,7 @@ namespace WriterPlatformApp.WEB.Controllers
                 messageBo.Save(message);
             }
 
-                return Json(model, JsonRequestBehavior.AllowGet);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

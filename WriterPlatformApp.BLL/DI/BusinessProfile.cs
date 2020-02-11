@@ -15,6 +15,20 @@ namespace WriterPlatformApp.BLL.DI
             CreateMap<GenreBO, Genre>()
             .ConstructUsing(c => DependencyResolver.Current.GetService<Genre>());
 
+            // Rating
+            CreateMap<Rating, RatingBO>()
+                .ForMember(dest => dest.RatingTypes, opt => opt.MapFrom(x => x.RatingTypes));
+            //.ConstructUsing(c => DependencyResolver.Current.GetService<RatingBO>());
+            CreateMap<RatingBO, Rating>()
+                .ForMember(dest => dest.RatingTypes, opt => opt.MapFrom(x => x.RatingTypes));
+            //.ConstructUsing(c => DependencyResolver.Current.GetService<Rating>());
+
+            // RatingType
+            CreateMap<RatingType, RatingTypeBO>()
+           .ConstructUsing(c => DependencyResolver.Current.GetService<RatingTypeBO>());
+            CreateMap<RatingTypeBO, RatingType>()
+            .ConstructUsing(c => DependencyResolver.Current.GetService<RatingType>());
+
             // User
             CreateMap<UserProfile, UserBO>()
             .ConstructUsing(c => DependencyResolver.Current.GetService<UserBO>());

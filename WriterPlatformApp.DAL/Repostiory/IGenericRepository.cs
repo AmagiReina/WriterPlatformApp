@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace WriterPlatformApp.DAL.Repostiory
 {
@@ -14,7 +14,7 @@ namespace WriterPlatformApp.DAL.Repostiory
         /**
          * SELECT * FROM table WHERE id = :id;
          * */
-        TEntity FindById(int id);
+        TEntity FindById(int? id);
 
         /**
          *  INSERT
@@ -40,5 +40,7 @@ namespace WriterPlatformApp.DAL.Repostiory
          *  JOIN
          * */
         IQueryable<TEntity> Include(params string[] navigationProperty);
+
+        DbEntityEntry<TEntity> SaveSingleField(TEntity item);
     }
 }

@@ -129,14 +129,26 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        RatingTypeId = c.Int(nullable: false),
                         UserProfilesId = c.String(maxLength: 128),
                         TitleId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.RatingTypes", t => t.RatingTypeId, cascadeDelete: true)
                 .ForeignKey("dbo.Titles", t => t.TitleId, cascadeDelete: true)
                 .ForeignKey("dbo.UserProfiles", t => t.UserProfilesId)
+                .Index(t => t.RatingTypeId)
                 .Index(t => t.UserProfilesId)
                 .Index(t => t.TitleId);
+            
+            CreateTable(
+                "dbo.RatingTypes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        RatingNumber = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -156,6 +168,7 @@
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Ratings", "UserProfilesId", "dbo.UserProfiles");
             DropForeignKey("dbo.Ratings", "TitleId", "dbo.Titles");
+            DropForeignKey("dbo.Ratings", "RatingTypeId", "dbo.RatingTypes");
             DropForeignKey("dbo.Messages", "UserProfilesId", "dbo.UserProfiles");
             DropForeignKey("dbo.Titles", "UserProfilesId", "dbo.UserProfiles");
             DropForeignKey("dbo.UserProfiles", "Id", "dbo.AspNetUsers");
@@ -167,6 +180,7 @@
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Ratings", new[] { "TitleId" });
             DropIndex("dbo.Ratings", new[] { "UserProfilesId" });
+            DropIndex("dbo.Ratings", new[] { "RatingTypeId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -178,6 +192,7 @@
             DropIndex("dbo.Messages", new[] { "TitleId" });
             DropIndex("dbo.Messages", new[] { "UserProfilesId" });
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.RatingTypes");
             DropTable("dbo.Ratings");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");

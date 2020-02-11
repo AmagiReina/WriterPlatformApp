@@ -13,6 +13,7 @@ namespace WriterPlatformApp.DAL.UnitOfWork
         GenericRepository<Title> Title { get; }
         GenericRepository<UserProfile> UserProfile { get; }
         GenericRepository<Rating> Rating { get; }
+        GenericRepository<RatingType> RatingType { get; }
         ApplicationRoleManager RoleManager { get; }
         ApplicationUserManager UserManager { get; }
         Task SaveAsync();

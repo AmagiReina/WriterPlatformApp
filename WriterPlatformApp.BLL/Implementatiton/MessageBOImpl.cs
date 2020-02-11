@@ -16,7 +16,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
         }
 
-        public override MessageBO FindById(int id)
+        public override MessageBO FindById(int? id)
         {
             var message = unitOfWork.Message.FindById(id);
 
@@ -41,6 +41,11 @@ namespace WriterPlatformApp.BLL.Implementatiton
                 (messagesByTitle).AsQueryable();
 
             return messageMap;
+        }
+
+        public async Task<IQueryable<MessageBO>> GetMessagesAsync(int titleId)
+        {
+            return await Task.Run(() => GetMessagesByTitle(titleId));
         }
 
         public override void Remove(int id)

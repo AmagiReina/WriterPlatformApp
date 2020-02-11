@@ -18,6 +18,7 @@ namespace WriterPlatformApp.DAL.UnitOfWork
         private GenericRepository<Title> title;
         private GenericRepository<UserProfile> userProfile;
         private GenericRepository<Rating> rating;
+        private GenericRepository<RatingType> ratingType;
         private bool disposed = false;
 
         public UnitOfWorkImpl()
@@ -110,7 +111,18 @@ namespace WriterPlatformApp.DAL.UnitOfWork
             }
         }
 
-       
+        public GenericRepository<RatingType> RatingType
+        {
+            get
+            {
+                if (ratingType == null)
+                {
+                    ratingType = new GenericRepository<RatingType>(db);
+                }
+                return ratingType;
+            }
+        }
+
         public async Task SaveAsync()
         {
             await db.SaveChangesAsync();

@@ -173,6 +173,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\RatingController.cs" />
+    <Compile Include="Controllers\RatingTypeController.cs" />
     <Compile Include="Controllers\TitleController.cs" />
     <Compile Include="DI\ViewModelProfile.cs" />
     <Compile Include="Global.asax.cs">
@@ -183,6 +185,8 @@
     <Compile Include="ViewModels\GenreViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\RatingTypeViewModel.cs" />
+    <Compile Include="ViewModels\RatingViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\TitleViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -300,6 +304,7 @@
     <Content Include="Scripts\src\utils\setAttributes.js" />
     <Content Include="Scripts\src\utils\setStyles.js" />
     <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\ajaxratingscript.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -334,9 +339,12 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Title\Details.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Title\Create.cshtml" />
+    <Content Include="Views\RatingType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Rating\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

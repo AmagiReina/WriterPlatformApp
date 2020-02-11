@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using WriterPlatformApp.DAL.Entities;
-using WriterPlatformApp.DAL.Identity;
 
 namespace WriterPlatformApp.DAL.DB
 {
@@ -24,6 +22,8 @@ namespace WriterPlatformApp.DAL.DB
         public virtual DbSet<Message> Messages { get; set; }
 
         public virtual DbSet<Rating> Ratings { get; set; }
+
+        public virtual DbSet<RatingType> RatingTypes { get; set; }
 
     
     }

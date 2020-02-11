@@ -10,7 +10,6 @@
 
 function getAllMessages() {
     let id = $('#Id').val();
-    console.log(id);
     $.ajax({
         type: "POST",
         datatype: "json",
@@ -40,7 +39,6 @@ function AddMessage() {
         data: JSON.stringify(message),
         url: "/Message/Add",
         success: function (result) {
-            console.log(message.TitleId);
             getAllMessages();
         },
         error: function () {

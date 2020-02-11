@@ -17,7 +17,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
         }
 
         public abstract IEnumerable<T> GetAll();
-        public abstract T FindById(int id);
+        public abstract T FindById(int? id);
         public abstract void Save(T businessObject);
         public abstract void Remove(int id);
     }

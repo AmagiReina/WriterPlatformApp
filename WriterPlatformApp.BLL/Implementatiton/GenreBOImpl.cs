@@ -24,7 +24,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
             return genreMap;
         }
 
-        public override GenreBO FindById(int id)
+        public override GenreBO FindById(int? id)
         {
             var genre = unitOfWork.Genre.FindById(id);
 

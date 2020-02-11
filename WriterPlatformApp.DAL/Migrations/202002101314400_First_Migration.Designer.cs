@@ -13,7 +13,7 @@ namespace WriterPlatformApp.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202002061239242_First_Migration"; }
+            get { return "202002101314400_First_Migration"; }
         }
         
         string IMigrationMetadata.Source

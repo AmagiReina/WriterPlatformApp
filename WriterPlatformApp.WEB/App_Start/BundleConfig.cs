@@ -32,6 +32,9 @@ namespace WriterPlatformApp.WEB
             bundles.Add(new ScriptBundle("~/bundles/ajaxmessagescript").Include(
                      "~/Scripts/ajaxmessagescript.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/ajaxratingscript").Include(
+                     "~/Scripts/ajaxratingscript.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                      "~/Scripts/moment.js"));
         }

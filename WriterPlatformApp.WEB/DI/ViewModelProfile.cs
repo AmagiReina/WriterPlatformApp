@@ -14,6 +14,20 @@ namespace WriterPlatformApp.WEB.DI
               .ConstructUsing(c => DependencyResolver.Current.GetService<GenreBO>());
             CreateMap<GenreBO, GenreViewModel>()
               .ConstructUsing(c => DependencyResolver.Current.GetService<GenreViewModel>());
+            
+            // Rating
+            CreateMap<RatingViewModel, RatingBO>()
+                .ForMember(dest => dest.RatingTypes, opt => opt.MapFrom(x => x.RatingTypes));
+                //.ConstructUsing(c => DependencyResolver.Current.GetService<RatingBO>());
+            CreateMap<RatingBO, RatingViewModel>()
+                .ForMember(dest => dest.RatingTypes, opt => opt.MapFrom(x => x.RatingTypes));
+                //.ConstructUsing(c => DependencyResolver.Current.GetService<RatingViewModel>());
+
+            // RatingType
+            CreateMap<RatingTypeViewModel, RatingTypeBO>()
+                .ConstructUsing(c => DependencyResolver.Current.GetService<RatingTypeBO>());
+            CreateMap<RatingTypeBO, RatingTypeViewModel>()
+                .ConstructUsing(c => DependencyResolver.Current.GetService<RatingTypeViewModel>());
 
             // UserForRegister
             CreateMap<RegisterViewModel, UserBO>()

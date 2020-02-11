@@ -7,9 +7,13 @@ namespace WriterPlatformApp.DAL.Entities
         [Key]
         public int Id { get; set; }
 
+        public int RatingTypeId { get; set; }
+
         public string UserProfilesId { get; set; }
 
         public int TitleId { get; set; }
+
+        public RatingType RatingTypes { get; set; }
 
         public UserProfile UserProfiles { get; set; }
 

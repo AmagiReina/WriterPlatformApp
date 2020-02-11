@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Threading.Tasks;
 using WriterPlatformApp.DAL.DB;
 
 namespace WriterPlatformApp.DAL.Repostiory
@@ -28,7 +28,7 @@ namespace WriterPlatformApp.DAL.Repostiory
             dbSet.Remove(item);
         }
 
-        public TEntity FindById(int id)
+        public TEntity FindById(int? id)
         {
             return dbSet.Find(id);
         }
@@ -53,10 +53,17 @@ namespace WriterPlatformApp.DAL.Repostiory
             db.SaveChanges();
         }
 
-
         public void Update(TEntity item)
         {
             db.Entry(item).State = EntityState.Modified;
+            
+        }
+
+        public DbEntityEntry<TEntity> SaveSingleField(TEntity item)
+        {           
+            var dbEntry = db.Entry(item);
+
+            return dbEntry;                 
         }
     }
 }
