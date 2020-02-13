@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,21 +12,36 @@ namespace WriterPlatformApp.BLL.Implementatiton
 {
     public class UserBOImpl: IUserBOImpl
     {
-        private IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public UserBOImpl(IUnitOfWork unitOfWork)
+        public UserBOImpl(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
+        }
+
+        public UserBO GetUserById(string id)
+        {
+            var user = unitOfWork.UserManager.FindById(id);
+;
+            UserBO userMap = mapper.Map<UserBO>(user);
+
+            return userMap;
         }
 
         public bool GetLocked(UserBO userBo)
         {
             var user = unitOfWork.UserManager.FindByName(userBo.UserName);
-
-            if (user.IsLocked)
-                return true;
-            else
-                return false;
+            
+            if (user != null)
+            {
+                if (user.IsLocked)
+                    return true;
+                else
+                    return false;
+            }
+            return false;
         }
 
         public async Task<ClaimsIdentity> Authenticate(UserBO userBo)
@@ -46,20 +62,24 @@ namespace WriterPlatformApp.BLL.Implementatiton
             ApplicationUser user = await unitOfWork.UserManager.FindByNameAsync(userBo.UserName);
             if (user == null)
             {
+
                 user = new ApplicationUser { UserName = userBo.UserName, Email = userBo.Email };
                 
                 var result = await unitOfWork.UserManager.CreateAsync(user, userBo.Password);
+
 
                 if (result.Errors.Count() > 0)
                      return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
 
                 // Создаем профиль клиента
                 UserProfile userProfile = new UserProfile
-                { Id = user.Id,  Email = user.Email, UserName = user.UserName };
+                { Id = user.Id, UserName = userBo.UserName,
+                Email = userBo.Email, Password = user.PasswordHash};
                 unitOfWork.UserProfile.Create(userProfile);
 
                 // Добавляем роль
                 await unitOfWork.UserManager.AddToRoleAsync(user.Id, userBo.Role);
+                userProfile.Role = userBo.Role;
                 await unitOfWork.SaveAsync();
 
                 return new OperationDetails(true, "Регистрация успешно завершена", "");
@@ -97,18 +117,45 @@ namespace WriterPlatformApp.BLL.Implementatiton
             }
         }
 
-        public async Task<OperationDetails> Remove(UserBO userBo)
+        public async Task<OperationDetails> ChangePassword(UserBO userBo)
         {
             ApplicationUser user = await unitOfWork.UserManager.FindByNameAsync(userBo.UserName);
 
             if (user != null && !user.IsLocked)
             {
-                user.UserName = "Аноним";
+                IPasswordHasher hasher = new PasswordHasher();            
+                user.PasswordHash = hasher.HashPassword(userBo.Password);
+                IdentityResult result = await unitOfWork.UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    await unitOfWork.SaveAsync();
+
+                }
+                return new OperationDetails(true, "Пароль пользователя успешно изменен", "");
+            }
+            else
+            {
+                return new OperationDetails(false, "Пользователя с таким именем не существует", "UserName");
+            }
+        }
+
+        public async Task<OperationDetails> Remove(UserBO userBo)
+        {
+            ApplicationUser user = await unitOfWork.UserManager.FindByNameAsync(userBo.UserName);
+
+            if (user != null && user.IsLocked == false)
+            {
+                user.UserName = "Test";
                 user.IsLocked = true;
                 IdentityResult result = await unitOfWork.UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
                     await unitOfWork.SaveAsync();
+                    // сохраняем профиль
+                    var profile = unitOfWork.UserProfile.GetAll().Where(x => x.Id == user.Id)
+                        .FirstOrDefault();
+                    profile.UserName = user.UserName;
+                    unitOfWork.UserProfile.Save();
                     
                 }
                 return new OperationDetails(true, "Пользователь удален", "");
@@ -117,8 +164,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
             {
                 return new OperationDetails(false, "Пользователя с таким именем не существует", "UserName");
             }
-
-
         }
+
     }
 }

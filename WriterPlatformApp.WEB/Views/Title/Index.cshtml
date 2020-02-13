@@ -5,61 +5,72 @@
 }
 @Styles.Render("~/Content/css")
 
-
-<div>
-    <h2 class="breadcrumb">Произведения</h2>
-    <form class="form-inline my-2 my-lg-0 float-right">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-    </form>
-
+<!--search-->
+<div class="col-md-9 col-md-push-1 float-md-right">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <form action="#" method="get" id="searchForm" class="input-group">
+                    <div class="input-group-btn btn-outline-primary">
+                        <select name="search_param" id="search_param"
+                                class="btn btn-default dropdown-toggle"
+                                data-toggle="dropdown">
+                            <option value="author">Author</option>
+                            <option value="title">Title</option>
+                            <option value="genre">Genre</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" id="search_text"
+                           name="name" placeholder="Search term...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" id="search_submit">
+                            <span class="fas fa-search"></span>
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!--sort-->
+<div class="btn-group float-md-right" role="group">
+    <div class="btn-group" role="group">
+        <button id="sort-button" type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">Sort</button>
+        <div class="dropdown-menu"
+             id="menu-sort"
+             aria-labelledby="sort-button">
+            <a class="dropdown-item" id="genre-sort">By Genre</a>
+            <a class="dropdown-item" id="rating-sort">By Rating</a>
+            <a class="dropdown-item" id="comment-sort">By Comment</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 
 <p class="btn btn-outline-primary">
     @Html.ActionLink("Create New", "Create")
 </p>
 
+<div id="alert-div">
 
-@foreach (var item in Model)
-{
-    <div class="d-flex justify-content-start bd-highlight mb-3" id="title-list">
-        <div class="card border-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">
-                <h4 class="card-title">
-                    Название:
-                    @item.TitleName
-                </h4>
+</div>
 
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">
-                    Рейтинг:
-                    @item.Rating
-                </h4>
-                <p class="card-text">
-                    Жанр:
-                    @item.Genres.GenreName
-                </p>
-                <p class="card-text">
-                    Автор:
-                    @item.UserProfiles.UserName
-                </p>
+@Scripts.Render("~/bundles/titleindexscript")
+<div class="container" id="titles_list">
 
-            </div>
-            <div class="card-footer text-muted">
-                <p class="card-text">
-                    Дата публикации:
-                    @item.PublicationDate
+</div>
 
-                </p>
-                <p class="btn btn-info float-right">
-                    @Html.ActionLink("Details", "Details", new { id = item.Id })
-                </p>
-            </div>
-        </div>
-    </div>
-}
+
+
 
 
 

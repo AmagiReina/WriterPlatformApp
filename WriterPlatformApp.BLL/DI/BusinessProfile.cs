@@ -29,12 +29,18 @@ namespace WriterPlatformApp.BLL.DI
             CreateMap<RatingTypeBO, RatingType>()
             .ConstructUsing(c => DependencyResolver.Current.GetService<RatingType>());
 
-            // User
+            // UserProfile
             CreateMap<UserProfile, UserBO>()
             .ConstructUsing(c => DependencyResolver.Current.GetService<UserBO>());
             CreateMap<UserBO, UserProfile>()
             .ForMember(dest => dest.ApplicationUser, opt => opt.Ignore())
             .ConstructUsing(c => DependencyResolver.Current.GetService<UserProfile>());
+
+            // User
+            CreateMap<ApplicationUser, UserBO>()
+            .ConstructUsing(c => DependencyResolver.Current.GetService<UserBO>());
+            CreateMap<UserBO, ApplicationUser>()
+            .ConstructUsing(c => DependencyResolver.Current.GetService<ApplicationUser>());
 
             // Message
             CreateMap<Message, MessageBO>()

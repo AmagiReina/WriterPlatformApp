@@ -13,7 +13,7 @@ namespace WriterPlatformApp.WEB.Controllers
     public class TitleController : Controller
     {
         private TitleBOImpl titleBo;
-        private IMapper mapper;
+        private readonly IMapper mapper;
 
         public TitleController(IMapper mapper)
         {
@@ -23,20 +23,9 @@ namespace WriterPlatformApp.WEB.Controllers
 
         [Authorize]
         // GET: Title/Index
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            IEnumerable<TitleBO> titles = await titleBo.GetAllTitlesAsync();
-
-            foreach (var item in titles)
-            {
-                titleBo.CalculateRating(item);
-            }
-                    
-            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
-                (titles);
-
-            
-            return View(viewModel);
+            return View();
         }
        
 
@@ -49,9 +38,9 @@ namespace WriterPlatformApp.WEB.Controllers
             {
                 return RedirectToAction("Index");
             }
-            var title = titleBo.FindById(id);
+            var newTitle = titleBo.FindById(id);
 
-            var viewModel = mapper.Map<TitleBO, TitleViewModel>(title);
+            var viewModel = mapper.Map<TitleBO, TitleViewModel>(newTitle);
 
             return View(viewModel);          
         }
@@ -77,6 +66,77 @@ namespace WriterPlatformApp.WEB.Controllers
                 return View(title);
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> GetAllTitles()
+        {
+            IEnumerable<TitleBO> titles = await titleBo.GetAllTitlesAsync();
+
+            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
+                (titles);
+
+
+            return PartialView(viewModel);
+        }
+
+        public ActionResult SearchByAuthor(string name)
+        {
+            var titles = titleBo.SearchByAuthor(name);
+
+            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
+                (titles);
+
+            return PartialView("GetAllTitles", viewModel);
+        }
+
+        public ActionResult SearchByTitleName(string name)
+        {
+            var titles = titleBo.SearchByTitleName(name);
+
+            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
+                (titles);
+
+            return PartialView("GetAllTitles", viewModel);
+        }
+
+        public ActionResult SearchByGenre(string name)
+        {
+            var titles = titleBo.SearchByGenre(name);
+
+            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
+                (titles);
+
+            return PartialView("GetAllTitles", viewModel);
+        }
+
+        public ActionResult SortByGenre()
+        {
+            var titles = titleBo.SortByGenre();
+
+            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
+                (titles);
+
+            return PartialView("GetAllTitles", viewModel);
+        }
+
+        public ActionResult SortByRating()
+        {
+            var titles = titleBo.SortByRating();
+
+            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
+                (titles);
+
+            return PartialView("GetAllTitles", viewModel);
+        }
+
+        public ActionResult SortByComment()
+        {
+            var titles = titleBo.SortByCommentAmount();
+
+            var viewModel = mapper.Map<IEnumerable<TitleBO>, List<TitleViewModel>>
+                (titles);
+
+            return PartialView("GetAllTitles", viewModel);
         }
 
     }

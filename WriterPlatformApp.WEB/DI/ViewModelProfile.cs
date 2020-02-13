@@ -40,7 +40,7 @@ namespace WriterPlatformApp.WEB.DI
               .ConstructUsing(c => DependencyResolver.Current.GetService<UserBO>());
             CreateMap<UserBO, LoginViewModel>()
               .ConstructUsing(c => DependencyResolver.Current.GetService<LoginViewModel>());
-
+     
             // User
             CreateMap<UserViewModel, UserBO>()
               .ConstructUsing(c => DependencyResolver.Current.GetService<UserBO>());

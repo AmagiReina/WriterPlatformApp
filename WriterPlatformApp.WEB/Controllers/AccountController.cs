@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ namespace WriterPlatformApp.WEB.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserBOImpl userBo;
-        private IMapper mapper;
+        private readonly IUserBOImpl userBo;
+        private readonly IMapper mapper;
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -45,9 +46,13 @@ namespace WriterPlatformApp.WEB.Controllers
             {            
                 UserBO user = mapper.Map<LoginViewModel, UserBO>(model);
                 ClaimsIdentity claim = await userBo.Authenticate(user);
-                if (claim == null)
+                if (claim == null && !userBo.GetLocked(user))
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль");
+                } 
+                else if  (claim == null && userBo.GetLocked(user))
+                {
+                    ModelState.AddModelError("", "Пользователь удален");
                 }
                 else
                 {
@@ -96,6 +101,55 @@ namespace WriterPlatformApp.WEB.Controllers
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Manage()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var user = userBo.GetUserById(userId);
+
+            var viewModel = mapper.Map<UserBO, UserViewModel>(user);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Manage(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserBO user = mapper.Map<UserViewModel, UserBO>(model);
+                userBo.Edit(user);
+            }
+            return RedirectToAction("Manage");
+        }
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(UserViewModel model)
+        {
+            return View();
+        }
+
+        public ActionResult Delete()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var user = userBo.GetUserById(userId);
+
+            userBo.Remove(user);
+
+            AuthenticationManager.SignOut();
+
+            return RedirectToAction("Login");
         }
   
     }

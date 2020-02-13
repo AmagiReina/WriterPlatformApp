@@ -13,6 +13,10 @@ namespace WriterPlatformApp.BLL.Implementatiton
          * */
         Task<OperationDetails> Create(UserBO userBo);
         /**
+         *  Нахождение пользователя по id
+         */
+        UserBO GetUserById(string id);
+        /**
          * Аутентификация пользователя
          * */
         Task<ClaimsIdentity> Authenticate(UserBO userBo);
@@ -24,5 +28,13 @@ namespace WriterPlatformApp.BLL.Implementatiton
          * Изменить данные пользователя
          * */
         Task<OperationDetails> Edit(UserBO userBo);
+        /**
+         * Проверка на удаленный аккаунт
+         * */
+        bool GetLocked(UserBO userBo);
+        /**
+         * Смена пароля
+         * */
+        Task<OperationDetails> ChangePassword(UserBO userBo);
     }
 }

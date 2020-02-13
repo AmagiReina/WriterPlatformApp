@@ -24,6 +24,7 @@ namespace WriterPlatformApp.WEB
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lumen.css",
+                      "~/Content/fontawesome-all.css",
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/ajaxtitlescript").Include(
@@ -34,6 +35,9 @@ namespace WriterPlatformApp.WEB
 
             bundles.Add(new ScriptBundle("~/bundles/ajaxratingscript").Include(
                      "~/Scripts/ajaxratingscript.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/titleindexscript").Include(
+                     "~/Scripts/titleindexscript.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                      "~/Scripts/moment.js"));

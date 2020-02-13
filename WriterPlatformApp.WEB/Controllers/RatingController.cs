@@ -11,11 +11,13 @@ namespace WriterPlatformApp.WEB.Controllers
     public class RatingController : Controller
     {
         private RatingBOImpl ratingBo;
+        private TitleBOImpl titleBo;
         private IMapper mapper;
 
         public RatingController(IMapper mapper)
         {
             ratingBo = NinjectConfig.GetRatingBO();
+            titleBo = NinjectConfig.GetTitleBO();
             this.mapper = mapper;
         }
 
@@ -51,6 +53,8 @@ namespace WriterPlatformApp.WEB.Controllers
                 {
                     rating.Id = ratingBo.FindByNameAndTitle(model.TitleId,
                         model.UserProfilesId).Id;
+                    TitleBO titleFound = titleBo.FindById(rating.TitleId);
+                    titleBo.CalculateRating(titleFound);
                 }
                 ratingBo.Save(rating);
             }

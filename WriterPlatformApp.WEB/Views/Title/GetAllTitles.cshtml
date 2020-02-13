@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WriterPlatformApp.WEB.ViewModels.TitleViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="d-flex justify-content-start bd-highlight mb-3" id="title-list">
+        <div class="card border-primary mb-3" style="max-width: 20rem;">
+            <div class="card-header">
+                <h4 class="card-title">
+                    Название:
+                    @item.TitleName
+                </h4>
+
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">
+                    Рейтинг:
+                    @item.Rating
+                </h4>
+                <p class="card-text">
+                    Жанр:
+                    @item.Genres.GenreName
+                </p>
+                <p class="card-text">
+                    Автор:
+                    @item.UserProfiles.UserName
+                </p>
+
+            </div>
+            <div class="card-footer text-muted">
+                <p class="card-text">
+                    Дата публикации:
+                    @item.PublicationDate
+
+                </p>
+                <p class="btn btn-info float-right">
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                </p>
+            </div>
+        </div>
+    </div>
+}

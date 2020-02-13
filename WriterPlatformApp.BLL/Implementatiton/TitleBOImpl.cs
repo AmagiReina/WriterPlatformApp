@@ -111,7 +111,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
             var ratings = unitOfWork.Rating.GetAll();
             int averageRating = 0;
 
-            if (ratings.Count() > 0)
+            if (ratings.Count() > 0 /*&& title.Rating != 0*/)
             {
                 double avg = ratings.AsQueryable().AsNoTracking()
                       .Where(x => x.TitleId == title.Id)
@@ -175,13 +175,12 @@ namespace WriterPlatformApp.BLL.Implementatiton
         /**
          * Sort by genre
          * */
-        public IEnumerable<TitleBO> SortByGenre(int genreId)
+        public IEnumerable<TitleBO> SortByGenre()
         {
             IEnumerable<Title> titles = unitOfWork.Title.Include("Genres", 
                 "UserProfiles");
 
-            var sorted = titles.Where(t => t.GenreId == genreId)
-                                .OrderBy(t => t.GenreId)
+            var sorted = titles.OrderByDescending(s => s.Genres.GenreName)
                                 .Take(50);
 
             var sortedMapper = mapper.Map<IEnumerable<Title>, List<TitleBO>>
@@ -213,7 +212,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
         public IEnumerable<TitleBO> SortByCommentAmount()
         {
             IEnumerable<Title> titles = unitOfWork.Title.Include("Genres",
-                "UserProfiles", "Commnents");
+                "UserProfiles", "Messages");
 
             var sorted = titles.OrderByDescending(x => x.Messages.Count())
                 .Take(50);

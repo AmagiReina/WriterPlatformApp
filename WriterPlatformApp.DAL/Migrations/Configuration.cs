@@ -3,6 +3,7 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -22,25 +23,34 @@
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
+            // check
 
-            if (db.Users.Where(x => x.UserName == "Admin").FirstOrDefault() == null)
+            const int ZERO_ROWS = 0;
+            if (db.Users.Select(x => x).Count() == ZERO_ROWS) // проверка таблицы с пользователями
             {
+                #region Создание ролей
                 var roleUser = new IdentityRole { Name = "user" };
                 var roleAdmin = new IdentityRole { Name = "admin" };
 
                 db.Roles.AddOrUpdate(roleUser);
-
                 db.Roles.AddOrUpdate(roleAdmin);
+                #endregion
 
+                #region Создание администраторской учетки
                 var adminIdentity = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-                string password = "Qwerty_12";
+                string password = "Qwerty_12";             
                 var admin = new ApplicationUser { Email = "admin@mail.ru", UserName = "Admin" };
                 var result = adminIdentity.Create(admin, password);
+                #endregion
+
+                #region Добавление роли администратора администраторской учетке
                 if (result.Succeeded)
                 {
                     adminIdentity.AddToRole(admin.Id, db.Roles.Where(r => r.Name == "admin").FirstOrDefault().Name);
                 }
+                #endregion
 
+                #region Добавление тестовых произведений
                 db.Titles.AddOrUpdate(
                         new Title
                         {
@@ -58,8 +68,10 @@
                             GenreId = 2,
                             UserProfilesId = admin.Id
                         }
-                        );
+                );
+                #endregion
 
+                #region Добавляем UserProfile            
                 db.UserProfiles.AddOrUpdate(
                           new UserProfile
                           {
@@ -71,9 +83,11 @@
                               Role = roleAdmin.Name
                           }
                       );
-
+                #endregion
             }
 
+
+            #region Добавляем стартовые жанры
             db.Genres.AddOrUpdate(
                 new Genre { GenreName = "Повесть" },
                 new Genre { GenreName = "Роман" },
@@ -85,20 +99,21 @@
                 new Genre { GenreName = "Трагедия" },
                 new Genre { GenreName = "Драма" }
             );
+            #endregion
 
+            #region Добавляем рейтинг
+            if (db.RatingTypes.Select(x => x).Count() == ZERO_ROWS)
+            {
+                IEnumerable<int> numbers = Enumerable.Range(1, 10).Select(x => x);
 
-            db.RatingTypes.AddOrUpdate(
-                new RatingType { RatingNumber = 1 },
-                new RatingType { RatingNumber = 2 },
-                new RatingType { RatingNumber = 3 },
-                new RatingType { RatingNumber = 4 },
-                new RatingType { RatingNumber = 5 },
-                new RatingType { RatingNumber = 6 },
-                new RatingType { RatingNumber = 7 },
-                new RatingType { RatingNumber = 8 },
-                new RatingType { RatingNumber = 9 },
-                new RatingType { RatingNumber = 10 }
-              );
+                foreach (var item in numbers)
+                {
+                    db.RatingTypes.AddOrUpdate(
+                        new RatingType { RatingNumber = item }
+                     );
+                }
+            }
+            #endregion
 
         }
     }
