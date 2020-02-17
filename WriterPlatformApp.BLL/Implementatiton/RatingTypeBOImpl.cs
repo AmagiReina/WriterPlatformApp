@@ -18,7 +18,9 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
         public override RatingTypeBO FindById(int? id)
         {
-            throw new NotImplementedException();
+            var ratingType = unitOfWork.RatingType.FindById(id);
+
+            return mapper.Map<RatingTypeBO>(ratingType);
         }
 
         public override IEnumerable<RatingTypeBO> GetAll()

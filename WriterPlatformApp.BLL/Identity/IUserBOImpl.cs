@@ -35,6 +35,6 @@ namespace WriterPlatformApp.BLL.Implementatiton
         /**
          * Смена пароля
          * */
-        Task<OperationDetails> ChangePassword(UserBO userBo);
+        Task<OperationDetails> ChangePassword(ChangePasswordBO userBo);
     }
 }

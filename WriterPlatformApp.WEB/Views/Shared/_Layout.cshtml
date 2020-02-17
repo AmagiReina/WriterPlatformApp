@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
-    <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav col-auto mr-auto p-2">
+            @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
+            <button type="button" class="navbar-toggler"
+                    data-toggle="collapse"
+                    data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarResponsive">
+                <ul class="navbar-nav mr-auto">
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item p-2">@Html.ActionLink("Home", "Index", "Home")</li>
@@ -30,8 +29,13 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
-
+    </nav>
+    <!--Navbar End-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/popper")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    <!--Body-->
     <div class="container body-content">
         <br />
         <br />
@@ -41,8 +45,7 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <!--Body End-->
 </body>
 </html>

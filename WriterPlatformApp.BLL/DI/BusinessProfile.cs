@@ -18,10 +18,8 @@ namespace WriterPlatformApp.BLL.DI
             // Rating
             CreateMap<Rating, RatingBO>()
                 .ForMember(dest => dest.RatingTypes, opt => opt.MapFrom(x => x.RatingTypes));
-            //.ConstructUsing(c => DependencyResolver.Current.GetService<RatingBO>());
             CreateMap<RatingBO, Rating>()
                 .ForMember(dest => dest.RatingTypes, opt => opt.MapFrom(x => x.RatingTypes));
-            //.ConstructUsing(c => DependencyResolver.Current.GetService<Rating>());
 
             // RatingType
             CreateMap<RatingType, RatingTypeBO>()
@@ -42,6 +40,23 @@ namespace WriterPlatformApp.BLL.DI
             CreateMap<UserBO, ApplicationUser>()
             .ConstructUsing(c => DependencyResolver.Current.GetService<ApplicationUser>());
 
+            // ChangePasswordBO -> UserProfile
+            CreateMap<UserProfile, ChangePasswordBO>()
+            .ForMember(dest => dest.OldPassword, opt => opt.MapFrom(x => x.Password))
+            .ForMember(dest => dest.NewPassword, opt => opt.Ignore())
+            .ConstructUsing(c => DependencyResolver.Current.GetService<ChangePasswordBO>());
+            CreateMap<ChangePasswordBO, UserProfile>()
+            .ForMember(dest => dest.ApplicationUser, opt => opt.Ignore())
+            .ConstructUsing(c => DependencyResolver.Current.GetService<UserProfile>());
+
+            // ChangePasswordBO -> User
+            CreateMap<ApplicationUser, ChangePasswordBO>()
+            .ForMember(dest => dest.OldPassword, opt => opt.MapFrom(x=> x.PasswordHash))
+            .ForMember(dest => dest.NewPassword, opt => opt.Ignore())
+            .ConstructUsing(c => DependencyResolver.Current.GetService<ChangePasswordBO>());
+            CreateMap<ChangePasswordBO, ApplicationUser>()
+            .ConstructUsing(c => DependencyResolver.Current.GetService<ApplicationUser>());
+
             // Message
             CreateMap<Message, MessageBO>()
                 .ForMember(dest => dest.Titles, opt => opt.MapFrom(x => x.Titles))
@@ -49,19 +64,16 @@ namespace WriterPlatformApp.BLL.DI
             CreateMap<MessageBO, Message>()
                 .ForMember(dest => dest.Titles, opt => opt.MapFrom(x => x.Titles))
                 .ForMember(dest => dest.UserProfiles, opt => opt.MapFrom(x => x.UserProfiles));
-            //.ConstructUsing(c => DependencyResolver.Current.GetService<Message>());
 
             // Title
             CreateMap<Title, TitleBO>()
                 .ForMember(dest => dest.Genres, opt => opt.MapFrom(x => x.Genres))
                 .ForMember(dest => dest.UserProfiles, opt => opt.MapFrom(x => x.UserProfiles))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(x => x.Messages));
-            //.ConstructUsing(c => DependencyResolver.Current.GetService<TitleBO>());
             CreateMap<TitleBO, Title>()
                 .ForMember(dest => dest.Genres, opt => opt.MapFrom(x => x.Genres))
                 .ForMember(dest => dest.UserProfiles, opt => opt.MapFrom(x => x.UserProfiles))
                 .ForMember(dest => dest.Messages, opt => opt.MapFrom(x => x.Messages));
-            //.ConstructUsing(c => DependencyResolver.Current.GetService<Title>());
         }
     }
 }

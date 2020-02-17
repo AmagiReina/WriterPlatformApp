@@ -40,7 +40,14 @@ namespace WriterPlatformApp.WEB.DI
               .ConstructUsing(c => DependencyResolver.Current.GetService<UserBO>());
             CreateMap<UserBO, LoginViewModel>()
               .ConstructUsing(c => DependencyResolver.Current.GetService<LoginViewModel>());
-     
+
+            // UserForChangePassword
+            CreateMap<ChangePasswordViewModel, ChangePasswordBO>()
+              .ConstructUsing(c => DependencyResolver.Current.GetService<ChangePasswordBO>());
+            CreateMap<ChangePasswordBO, ChangePasswordViewModel>()
+              .ForMember(dest => dest.ConfirmNewPassword, opt => opt.Ignore())
+              .ConstructUsing(c => DependencyResolver.Current.GetService<ChangePasswordViewModel>());
+
             // User
             CreateMap<UserViewModel, UserBO>()
               .ConstructUsing(c => DependencyResolver.Current.GetService<UserBO>());

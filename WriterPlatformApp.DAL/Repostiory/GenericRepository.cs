@@ -8,8 +8,8 @@ namespace WriterPlatformApp.DAL.Repostiory
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private ApplicationContext db;
-        private DbSet<TEntity> dbSet;
+        private readonly ApplicationContext db;
+        private readonly DbSet<TEntity> dbSet;
 
         public GenericRepository(ApplicationContext db)
         {
@@ -64,6 +64,11 @@ namespace WriterPlatformApp.DAL.Repostiory
             var dbEntry = db.Entry(item);
 
             return dbEntry;                 
+        }
+
+        public TEntity FindByString(string property)
+        {
+            return dbSet.Find(property);
         }
     }
 }

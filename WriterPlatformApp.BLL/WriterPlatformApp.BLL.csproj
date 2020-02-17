@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BO\ChangePasswordBO.cs" />
     <Compile Include="BO\GenreBO.cs" />
     <Compile Include="BO\MessageBO.cs" />
     <Compile Include="BO\RatingBO.cs" />

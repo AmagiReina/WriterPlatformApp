@@ -119,11 +119,14 @@ namespace WriterPlatformApp.WEB.Controllers
         [HttpPost]
         public ActionResult Manage(UserViewModel model)
         {
+            string UserId = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 UserBO user = mapper.Map<UserViewModel, UserBO>(model);
+                user.Id = UserId;
                 userBo.Edit(user);
             }
+            AuthenticationManager.SignOut();
             return RedirectToAction("Manage");
         }
 
@@ -134,9 +137,19 @@ namespace WriterPlatformApp.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(UserViewModel model)
-        {
-            return View();
+        public JsonResult ChangePassword(ChangePasswordViewModel model)
+        {         
+            string UserId = User.Identity.GetUserId();
+                if (ModelState.IsValid)
+            {
+                ChangePasswordBO user = mapper.Map<ChangePasswordViewModel, 
+                    ChangePasswordBO>(model);
+                user.Id = UserId;
+                userBo.ChangePassword(user);
+                AuthenticationManager.SignOut();
+            }
+            
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete()

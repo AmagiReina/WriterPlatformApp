@@ -100,32 +100,17 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
 
         #region Additional
+        /**
+         * Установка стартового рейтинга
+         * */
         public void SetStart(TitleBO title)
         {
             title.PublicationDate = DateTime.Now;
             title.Rating = START_RATING;
         }
 
-        public int GetAverage(TitleBO title)
-        {
-            var ratings = unitOfWork.Rating.GetAll();
-            int averageRating = 0;
-
-            if (ratings.Count() > 0 /*&& title.Rating != 0*/)
-            {
-                double avg = ratings.AsQueryable().AsNoTracking()
-                      .Where(x => x.TitleId == title.Id)
-                      .Select(x => x.RatingTypes.RatingNumber)
-                      .Average();
-
-                averageRating = Convert.ToInt32(avg);
-            }
-
-            return averageRating;
-        }
-
         /**
-         * Search by author
+         * Поиск по автору
          * */
         public IEnumerable<TitleBO> SearchByAuthor(string name)
         {
@@ -141,7 +126,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
         }
 
         /**
-         * Search by name of title
+         * Поиск по имени произведения
          * */
         public IEnumerable<TitleBO> SearchByTitleName(string name)
         {
@@ -157,7 +142,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
         }
 
         /**
-         * Search by genre
+         * Поиск по жанру
          * */
          public IEnumerable<TitleBO> SearchByGenre(string name)
          {
@@ -173,7 +158,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
          }
 
         /**
-         * Sort by genre
+         * Сортировка по жанру
          * */
         public IEnumerable<TitleBO> SortByGenre()
         {
@@ -190,7 +175,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
         }
 
         /**
-         * Sort by Rating
+         * Сортировка по рейтингу
          * */
         public IEnumerable<TitleBO> SortByRating()
         {
@@ -207,7 +192,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
         }
 
         /**
-         * Sort by Comments Count
+         * Сортировка по количеству комментариев под произведением
          * */
         public IEnumerable<TitleBO> SortByCommentAmount()
         {
@@ -222,14 +207,58 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
             return sortedMapper;
         }
-        
-        public void CalculateRating(TitleBO title)
+
+        /**
+         * Вычисление среднего рейтинга
+         * */
+        public int GetAverage(TitleBO title)
         {
-            title.Rating = GetAverage(title);
-                 
+            var rating = unitOfWork.Rating.Include("RatingTypes")
+                .Where(x => x.TitleId == title.Id).Any();
+            int averageRating = START_RATING;
+            double avg = START_RATING;
+
+            if (rating)
+            {
+                var ratings = unitOfWork.Rating.GetAll();
+                avg = ratings.AsQueryable().AsNoTracking()
+                      .Where(x => x.TitleId == title.Id)
+                      .Select(x => x.RatingTypes.RatingNumber)
+                      .Average();
+            } 
+            else
+            {
+                var ratings = unitOfWork.Rating.GetAll();
+                avg = ratings.AsQueryable().AsNoTracking()
+                      .Where(x => x.TitleId == title.Id)
+                      .Select(x => x.RatingTypes.RatingNumber)
+                      .FirstOrDefault();               
+            }
+            averageRating = Convert.ToInt32(avg);
+
+            return averageRating;
+        }
+
+        /**
+         * Подсчет рейтинга
+         */
+        public void CalculateRating(int titleId)
+        {
+            var foundTitle = FindById(titleId);
+
+            foundTitle.Rating = GetAverage(foundTitle);
+
+            SaveRating(foundTitle);          
+        }
+
+        /**
+         * Сохранение рейтинга
+         * */
+        public void SaveRating(TitleBO title)
+        {
             Title titleEntity = unitOfWork.Title.FindById(title.Id);
 
-            var titleEntry = 
+            var titleEntry =
                 unitOfWork.Title.SaveSingleField(titleEntity);
 
             titleEntry.CurrentValues.SetValues(title);

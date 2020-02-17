@@ -10,9 +10,9 @@ namespace WriterPlatformApp.WEB.Controllers
 {
     public class RatingController : Controller
     {
-        private RatingBOImpl ratingBo;
-        private TitleBOImpl titleBo;
-        private IMapper mapper;
+        private readonly RatingBOImpl ratingBo;
+        private readonly TitleBOImpl titleBo;
+        private readonly IMapper mapper;
 
         public RatingController(IMapper mapper)
         {
@@ -46,17 +46,17 @@ namespace WriterPlatformApp.WEB.Controllers
             {
                 model.UserProfilesId = User.Identity.GetUserId();
                 RatingBO rating = mapper.Map<RatingViewModel, RatingBO>(model);
-                bool found = ratingBo.FindExist(model.TitleId,
+                // Find ratings by title
+                bool found = ratingBo.FindExist(rating.TitleId,
                     model.UserProfilesId);
-
+                              
                 if (found)
                 {
                     rating.Id = ratingBo.FindByNameAndTitle(model.TitleId,
                         model.UserProfilesId).Id;
-                    TitleBO titleFound = titleBo.FindById(rating.TitleId);
-                    titleBo.CalculateRating(titleFound);
-                }
+                }                
                 ratingBo.Save(rating);
+                titleBo.CalculateRating(rating.TitleId);
             }
             return Json(model, JsonRequestBehavior.AllowGet);
         }

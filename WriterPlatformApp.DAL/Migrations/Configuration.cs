@@ -4,7 +4,6 @@
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
     using WriterPlatformApp.DAL.Entities;
@@ -25,8 +24,8 @@
             //  to avoid creating duplicate seed data.
             // check
 
-            const int ZERO_ROWS = 0;
-            if (db.Users.Select(x => x).Count() == ZERO_ROWS) // проверка таблицы с пользователями
+            const int ZERO = 0;
+            if (db.Users.Select(x => x).Count() == ZERO) // проверка таблицы с пользователями
             {
                 #region Создание ролей
                 var roleUser = new IdentityRole { Name = "user" };
@@ -56,7 +55,7 @@
                         {
                             TitleName = "Test",
                             PublicationDate = DateTime.Now,
-                            Rating = 9,
+                            Rating = ZERO,
                             GenreId = 3,
                             UserProfilesId = admin.Id
                         },
@@ -64,7 +63,7 @@
                         {
                             TitleName = "Test1",
                             PublicationDate = DateTime.Now,
-                            Rating = 6,
+                            Rating = ZERO,
                             GenreId = 2,
                             UserProfilesId = admin.Id
                         }
@@ -102,7 +101,7 @@
             #endregion
 
             #region Добавляем рейтинг
-            if (db.RatingTypes.Select(x => x).Count() == ZERO_ROWS)
+            if (db.RatingTypes.Select(x => x).Count() == ZERO)
             {
                 IEnumerable<int> numbers = Enumerable.Range(1, 10).Select(x => x);
 

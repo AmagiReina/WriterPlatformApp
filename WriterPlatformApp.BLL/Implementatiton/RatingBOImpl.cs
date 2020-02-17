@@ -94,7 +94,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
             var rating = unitOfWork.Rating.Include("RatingTypes")
                 .Where(x => x.TitleId == titleId)
                 .Where(x => x.UserProfilesId == userId).Any();
-
+              
             return rating;
         }
         #endregion

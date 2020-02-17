@@ -12,7 +12,7 @@ namespace WriterPlatformApp.WEB.Controllers
 {
     public class TitleController : Controller
     {
-        private TitleBOImpl titleBo;
+        private readonly TitleBOImpl titleBo;
         private readonly IMapper mapper;
 
         public TitleController(IMapper mapper)

@@ -17,6 +17,11 @@ namespace WriterPlatformApp.DAL.Repostiory
         TEntity FindById(int? id);
 
         /**
+         * SELECT * FROM table WHERE string_property = : string_property;
+         * */
+        TEntity FindByString(string property);
+
+        /**
          *  INSERT
          * */
         void Create(TEntity item);

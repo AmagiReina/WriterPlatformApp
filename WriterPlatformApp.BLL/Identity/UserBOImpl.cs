@@ -97,18 +97,26 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
         public async Task<OperationDetails> Edit(UserBO userBo)
         {
-            ApplicationUser user = await unitOfWork.UserManager.FindByNameAsync(userBo.UserName);
+            ApplicationUser user = await unitOfWork.UserManager.FindByIdAsync(userBo.Id);
+            UserProfile profile = unitOfWork.UserProfile.FindByString(userBo.Id);
 
-            if (user != null && !user.IsLocked)
+            if (user != null && !user.IsLocked && profile != null && !profile.isLocked)
             {
                 user.UserName = userBo.UserName;
                 user.Email = userBo.Email;
+                
+                profile.UserName = userBo.UserName;
+                profile.Email = userBo.Email;
+
                 IdentityResult result = await unitOfWork.UserManager.UpdateAsync(user);
+              
                 if (result.Succeeded)
                 {
-                    await unitOfWork.SaveAsync();
-
+                    unitOfWork.UserProfile.Update(profile);
+                    unitOfWork.UserProfile.Save();
+                    await unitOfWork.SaveAsync();              
                 }
+
                 return new OperationDetails(true, "Данные пользователя успешно изменены", "");
             }
             else
@@ -117,19 +125,23 @@ namespace WriterPlatformApp.BLL.Implementatiton
             }
         }
 
-        public async Task<OperationDetails> ChangePassword(UserBO userBo)
+        public async Task<OperationDetails> ChangePassword(ChangePasswordBO changePasswordBo)
         {
-            ApplicationUser user = await unitOfWork.UserManager.FindByNameAsync(userBo.UserName);
+            ApplicationUser user = await unitOfWork.UserManager.FindByIdAsync(changePasswordBo.Id);
+            UserProfile profile = unitOfWork.UserProfile.FindByString(changePasswordBo.Id);
 
-            if (user != null && !user.IsLocked)
+            if (user != null && !user.IsLocked && profile != null && !profile.isLocked)
             {
-                IPasswordHasher hasher = new PasswordHasher();            
-                user.PasswordHash = hasher.HashPassword(userBo.Password);
-                IdentityResult result = await unitOfWork.UserManager.UpdateAsync(user);
+                IdentityResult result = await unitOfWork.UserManager.ChangePasswordAsync
+                    (user.Id, changePasswordBo.OldPassword, changePasswordBo.NewPassword);
+                               
+                profile.Password = user.PasswordHash;
+                
                 if (result.Succeeded)
                 {
+                    unitOfWork.UserProfile.Update(profile);
+                    unitOfWork.UserProfile.Save();
                     await unitOfWork.SaveAsync();
-
                 }
                 return new OperationDetails(true, "Пароль пользователя успешно изменен", "");
             }
@@ -145,7 +157,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
             if (user != null && user.IsLocked == false)
             {
-                user.UserName = "Test";
+                user.UserName = "Anonymous";
                 user.IsLocked = true;
                 IdentityResult result = await unitOfWork.UserManager.UpdateAsync(user);
                 if (result.Succeeded)
