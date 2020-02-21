@@ -14,7 +14,7 @@ namespace WriterPlatformApp.WEB.ViewModels
         public DateTime PublicationDate { get; set; }
         [Display(Name = "Рейтинг")]
         public int Rating { get; set; }
-        public byte[] Content { get; set; }
+        public string ContentPath { get; set; }
         public int GenreId { get; set; }
         public string UserProfilesId { get; set; }
         public GenreViewModel Genres { get; set; }

@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "Произведения";
 }
-@Styles.Render("~/Content/css")
+
+<h2>Список произведений</h2>
 
 <!--Control Panel-->
 <div class="container border border-primary rounded-sm">
@@ -11,26 +12,28 @@
         <!--Add New Title-->
         <div class="row mb-1">
             <div class="col-sm">
-                <p class="btn btn-outline-primary">
+                <p class="btn btn-outline-primary" style="background-color: white">
                     @Html.ActionLink("Добавить произведение", "Create")
                 </p>
             </div>
         </div>
+        <!--End Add New Title-->
         <!--Search Panel-->
-        <div class="row mb-2">
+        <div class="row mb-2 md-2">
             <div class="col-sm">
                 <form action="#" method="get" id="searchForm" class="input-group">
-                    <div class="input-group-btn btn-outline-primary">
+                    <div class="input-group-btn btn-primary">
                         <select name="search_param" id="search_param"
                                 class="btn btn-default dropdown-toggle"
                                 data-toggle="dropdown">
-                            <option value="author">Author</option>
-                            <option value="title">Title</option>
-                            <option value="genre">Genre</option>
+                            <option disabled value="">Выберите пункт:</option>
+                            <option value="author">Автор</option>
+                            <option value="title">Произведение</option>
+                            <option value="genre">Жанр</option>
                         </select>
                     </div>
                     <input type="text" class="form-control" id="search_text"
-                           name="name" placeholder="Search term...">
+                           name="name" placeholder="Поиск....">
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="submit" id="search_submit">
                             <span class="fas fa-search"></span>
@@ -38,39 +41,42 @@
                     </span>
                 </form>
             </div>
-            <!--Sort Panel-->
-            <div class="btn-group" role="group">
+        </div>
+        <!--End Search Panel-->
+        <!--Sort Panel-->
+        <div class="row mb-2">
+            <div class="btn-group" role="group" style="background-color: white">
                 <div class="btn-group" role="group">
                     <button id="sort-button" type="button"
                             class="btn btn-primary dropdown-toggle"
                             data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                        Sort
+                        Сортировать
                     </button>
                     <div class="dropdown-menu"
                          id="menu-sort"
                          aria-labelledby="sort-button">
-                        <a class="dropdown-item" id="genre-sort">By Genre</a>
-                        <a class="dropdown-item" id="rating-sort">By Rating</a>
-                        <a class="dropdown-item" id="comment-sort">By Comment</a>
+                        <a class="dropdown-item" id="genre-sort">По жанру</a>
+                        <a class="dropdown-item" id="rating-sort">По рейтингу</a>
+                        <a class="dropdown-item" id="comment-sort">По кол-ву комментариев</a>
                     </div>
                 </div>
             </div>
         </div>
+        <!--End Sort Panel-->
     </div>
+    <!--End Container-->
 </div>
-
-
-<div id="alert-div">
-
-</div>
+<!--End Control Panel-->
 
 @Scripts.Render("~/bundles/titleindexscript")
-<div class="container mt-4">
-    <div class="card-deck" id="titles_list">
+<div class="container mt-4 border border-primary rounded-sm">
+    <div class="container mt-3" id="titles_list">
 
     </div>
 </div>
+
+
 
 
 

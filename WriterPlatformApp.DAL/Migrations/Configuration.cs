@@ -66,6 +66,78 @@
                             Rating = ZERO,
                             GenreId = 2,
                             UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test2",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test3",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test4",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test5",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test6",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test7",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test8",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test9",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
+                        },
+                        new Title
+                        {
+                            TitleName = "Test10",
+                            PublicationDate = DateTime.Now,
+                            Rating = ZERO,
+                            GenreId = 2,
+                            UserProfilesId = admin.Id
                         }
                 );
                 #endregion

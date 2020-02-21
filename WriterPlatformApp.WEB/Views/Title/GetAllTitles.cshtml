@@ -1,41 +1,57 @@
-﻿@model IEnumerable<WriterPlatformApp.WEB.ViewModels.TitleViewModel>
+﻿@model WriterPlatformApp.WEB.Helpers.PagedData<TitleViewModel>
+@using WriterPlatformApp.WEB.ViewModels
 
-@foreach (var item in Model)
-{
-    <div class="d-flex justify-content-start bd-highlight mb-3" id="title-list">
-        <div class="card border-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">
-                <h4 class="card-title">
-                    Название:
-                    @item.TitleName
-                </h4>
+<div class="card-deck">
+    @foreach (var item in Model.Data)
+    {
+        <div class="d-flex justify-content-start bd-highlight mb-3" id="title-list">
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        @item.TitleName
+                    </h4>
 
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">
-                    Рейтинг:
-                    @item.Rating
-                </h4>
-                <p class="card-text">
-                    Жанр:
-                    @item.Genres.GenreName
-                </p>
-                <p class="card-text">
-                    Автор:
-                    @item.UserProfiles.UserName
-                </p>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Рейтинг:
+                        @item.Rating
+                    </h4>
+                    <p class="card-text">
+                        Жанр:
+                        @item.Genres.GenreName
+                    </p>
+                    <p class="card-text">
+                        Автор:
+                        @item.UserProfiles.UserName
+                    </p>
 
-            </div>
-            <div class="card-footer text-muted">
-                <p class="card-text">
-                    Дата публикации:
-                    @item.PublicationDate
+                </div>
+                <div class="card-footer text-muted">
+                    <p class="card-text">
+                        Дата публикации:
+                        @item.PublicationDate
 
-                </p>
-                <p class="btn btn-info float-right">
-                    @Html.ActionLink("Details", "Details", new { id = item.Id })
-                </p>
+                    </p>
+                    <p class="btn btn-info float-right">
+                        @Html.ActionLink("Подробнее", "Details", new { id = item.Id })
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
+</div>
+<div class="container-mt-3 md-3 btn-group-sm">
+    @for (int i = 1; i <= Model.NumberOfPages; i++)
+    {
+        if (i == Model.CurrentPage)
+        {
+            <button id="current" class="btn btn-primary">@i</button>
+        }
+        else
+        {
+            <button id="page" class="btn btn-primary">@i</button>
+        }
+    }
+</div>
+

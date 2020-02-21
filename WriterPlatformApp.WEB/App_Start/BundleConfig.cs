@@ -20,15 +20,29 @@ namespace WriterPlatformApp.WEB
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap.bundle.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/popper").Include(
                        "~/Scripts/popper.min.js"));
-
+            
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lumen.css",
                       "~/Content/fontawesome-all.css",
+                      "~/Content/alertifyjs/alertify.css",
+                      "~/Content/alertifyjs/alertify.rtl.css",
+                      "~/Content/alertifyjs/themes/bootstrap.css",
+                      "~/Content/alertifyjs/themes/bootstrap.rtl.css",
                       "~/Content/site.css"));
+
+            // Helper scripts(moment, alertify)
+
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+                "~/Scripts/moment.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/alertify").Include(
+                "~/Scripts/alertify.js"));
+
+            // Custom scripts
 
             bundles.Add(new ScriptBundle("~/bundles/ajaxtitlescript").Include(
                       "~/Scripts/ajaxtitlescript.js"));
@@ -42,8 +56,7 @@ namespace WriterPlatformApp.WEB
             bundles.Add(new ScriptBundle("~/bundles/titleindexscript").Include(
                      "~/Scripts/titleindexscript.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
-                     "~/Scripts/moment.js"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/changepassword").Include(
                      "~/Scripts/changepwdscript.js"));

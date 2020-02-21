@@ -92,7 +92,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
 
         #region AsyncQueries
-        public async Task<IEnumerable<TitleBO>> GetAllTitlesAsync()
+        public async Task<IEnumerable<TitleBO>> GetAllTitles()
         {
             return await Task.Run(() => GetAll());
         }

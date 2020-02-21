@@ -9,7 +9,7 @@ namespace WriterPlatformApp.BLL.BO
         public string TitleName { get; set; }
         public DateTime PublicationDate { get; set; }
         public int Rating { get; set; }
-        public byte[] Content { get; set; }
+        public string ContentPath { get; set; }
         public int GenreId { get; set; }
         public string UserProfilesId { get; set; }
         public GenreBO Genres { get; set; }

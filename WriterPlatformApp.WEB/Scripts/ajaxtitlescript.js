@@ -1,7 +1,5 @@
-﻿$(document).ready(function () {
-    
+﻿$(document).ready(function () {   
     let id = $('#Id').val();
-    console.log(id);
     GetDetails(id);
 });
 

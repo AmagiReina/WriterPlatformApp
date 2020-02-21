@@ -1,134 +1,201 @@
-﻿$(document).ready(function () {
-    HideAlert();
+﻿$(document).ready(function () {  
     SortDropdownActivate();
-
-    if ($('#titles_list').children().length == 0) {
-        GetAllTitles();
-    }     
+    LoadDefault("start");
     StartSearchEngine();
     StartSortEngine();
 });
 
+function LoadDefault(type) {
+    const startPage = 1;
+    if (type == "start")
+    {
+        setTimeout(GetAllTitles(startPage), 5);
+    }
+    else
+    {
+        if ($('.card-deck').children().length == 0) {
+            SetAlert("not_found");
+            setTimeout(GetAllTitles(startPage), 200000);
+        };
+    }
+}
 function SortDropdownActivate() {
     $("#sort-button").on("click", function () {
         $('#menu-sort').toggle();
     });
 }
 
-function ShowAlert() {
-    $('#alert-div').addClass("alert alert-dismissible alert-danger");
-
-    $('#alert-div')
-        .html("<p class='text-center'>test</p>");
-    $('#alert-div').show();
-}
-
-function HideAlert() {
-    $('#alert-div').hide();
-}
-
 function StartSearchEngine() {
-    let selectedSearchOption
-        = null;
-    let searchText
-        = $('#search_text').val();
-    $('#search_param').on('change', function () {
+    // Start variables
+    let selectedSearchOption = null;
+    let searchText = null;
+    const startPage = 1;
+
+    $('#search_param').on('change', function (e) {
+        e.preventDefault();
         selectedSearchOption
             = $('#search_param').val();
-
-        $("#search_submit").click(function (e) {
-            console.log(selectedSearchOption);
-            e.preventDefault();
-
-            if (searchText != null) {
-                if (selectedSearchOption == "author") {
-                    SearchByAuthor();
-                }
-                else if (selectedSearchOption == "title") {
-                    SearchByTitleName();
-                }
-                else if (selectedSearchOption == "genre") {
-                    SearchByGenre();
-                }
-            }
-        });
     });
+    console.log(selectedSearchOption);
+    $("#search_submit").on("click", function (e) {
+        e.preventDefault();
+
+        selectedSearchOption = $('#search_param').val();
+        searchText = $('#search_text').val();
+
+        console.log(selectedSearchOption);
+        console.log(searchText);
+        if (searchText != null) {
+            if (selectedSearchOption == "author") {
+                SearchByAuthor(startPage);
+            }
+            else if (selectedSearchOption == "title") {
+                SearchByTitleName(startPage);
+            }
+            else if (selectedSearchOption == "genre") {
+                SearchByGenre(startPage);
+            }
+        }
+    });
+       
 }
 
 function StartSortEngine() {
     console.log($('#genre-sort').html());
+    const startPage = 1;
     $('#genre-sort').on("click", function (e) {
         e.preventDefault();
         console.log("click");
-        SortByGenre();
+        SortByGenre(startPage);
+        $('#menu-sort').hide();
     });
     $('#rating-sort').on("click", function (e) {
         e.preventDefault();
-        SortByRating();
+        SortByRating(startPage);
+        $('#menu-sort').hide();
     });
 
     $('#comment-sort').on("click", function (e) {
-        e.preventDefault();
+        e.preventDefault(startPage);
         SortByComment();
+        $('#menu-sort').hide();
     });
 }
 
 /**
  * Fetch all titles
  * */
-function GetAllTitles() {
+function GetAllTitles(page) {
     $('#titles_list')
-        .load('/Title/GetAllTitles'); 
+        .load('/Title/GetAllTitles', { "page": page }, function () {
+            $('#page').on("click", function (ev) {
+                let pageNumber = $(ev.target).html();
+                console.log(pageNumber);
+                GetAllTitles(pageNumber);
+            });
+        });
 }
 /**
  * Search functions
  * */
-function SearchByAuthor() {
+function SearchByAuthor(page) {
     var name = $("#search_text").val();
-    console.log(name);
 
     name = encodeURIComponent(name);
+    page = encodeURIComponent(page);
 
     $('#titles_list')
-            .load('/Title/SearchByAuthor/',
-                {name : name} );
-    
+        .load('/Title/SearchByAuthor/',
+            { name: name, page: page }, function () {
+                $('#page').on("click", function (ev) {
+                    let pageNumber = $(ev.target).html();
+                    SearchByAuthor(pageNumber);
+                });
+                LoadDefault();
+            });
 }
 
-function SearchByTitleName() {
+function SearchByTitleName(page) {
     var name = $("#search_text").val();
 
     name = encodeURIComponent(name);
-    console.log(name);
+    page = encodeURIComponent(page);
 
     $('#titles_list')
         .load('/Title/SearchByTitleName/',
-            { name: name });
+            { name: name, page: page }, function () {
+                $('#page').on("click", function (ev) {
+                    let pageNumber = $(ev.target).html();
+                    SearchByTitleName(pageNumber);
+                });
+                LoadDefault();
+           });
 }
 
 
-function SearchByGenre() {
+function SearchByGenre(page) {
     var name = $("#search_text").val();
 
     $('#titles_list')
         .load('/Title/SearchByGenre/',
-            { name: name }); 
+            { name: name, "page": page }, function () {
+                $('#page').on("click", function (ev) {
+                    let pageNumber = $(ev.target).html();
+                    SearchByGenre(pageNumber);
+                });
+                LoadDefault();
+            }); 
 }
 
 /**
  * Sort functions
  * */
-function SortByGenre() {
+function SortByGenre(page) {
     $('#titles_list')
-        .load('/Title/SortByGenre');
+        .load('/Title/SortByGenre',
+            { "page": page }, function () {
+                $('#page').on("click", function (ev) {
+                    let pageNumber = $(ev.target).html();
+                    SortByGenre(pageNumber);
+                });
+            });      
 }
 
-function SortByRating() {
+function SortByRating(page) {
     $('#titles_list')
-        .load('/Title/SortByRating');
+        .load('/Title/SortByRating',
+            { "page": page }, function () {
+                // click
+                $('#page').on("click", function (ev) {
+                    let pageNumber = $(ev.target).html();
+                    SortByRating(pageNumber);
+                });
+                // end click
+            }); 
 }
 
-function SortByComment() {
+function SortByComment(page) {
     $('#titles_list')
-        .load('/Title/SortByComment');
+        .load('/Title/SortByComment',
+            { "page": page }, function () {
+                $('#page').on("click", function (ev) {
+                    let pageNumber = $(ev.target).html();
+                    SortByComment(pageNumber);
+                });
+            }); 
+}
+
+function SetAlert(type) {
+    // Set position of alert
+    alertify.set('notifier', 'position', 'bottom-left');
+
+    // Check type of alert
+    switch (type) {
+        case "success":
+            alertify.notify('Загружено', 'success', 2);
+            break;
+        case "not_found":
+            alertify.notify('Не найдено', 'error', 2);
+            break;
+    };
 }

@@ -15,7 +15,7 @@ namespace WriterPlatformApp.DAL.Entities
 
         public int Rating { get; set; }
 
-        public byte[] Content { get; set; }
+        public string ContentPath { get; set; }
 
         public int GenreId { get; set; }
 

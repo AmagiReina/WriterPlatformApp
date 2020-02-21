@@ -2,7 +2,6 @@
     GetRatings();   
     $(document).ajaxComplete(function (event, xhr, settings) {       
         if (settings.url == "/RatingType/Index") {
-            console.log("add");
             $('#RatingSubmit').on("click", function () {
                 SetRating();
             });
@@ -20,7 +19,6 @@ function GetRatingById() {
             titleId: id
         },
         success: function (data) {
-            console.log(data.RatingTypes.RatingNumber);
             $("#ratingSelect").val(data.RatingTypes.RatingNumber);
         }
     });
