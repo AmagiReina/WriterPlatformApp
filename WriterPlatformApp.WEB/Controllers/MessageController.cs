@@ -12,8 +12,8 @@ namespace WriterPlatformApp.WEB.Controllers
 {
     public class MessageController : Controller
     {
-        private MessageBOImpl messageBo;
-        private IMapper mapper;
+        private readonly MessageBOImpl messageBo;
+        private readonly IMapper mapper;
 
         public MessageController(IMapper mapper)
         {

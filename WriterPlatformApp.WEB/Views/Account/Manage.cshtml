@@ -1,48 +1,55 @@
 ﻿@model WriterPlatformApp.WEB.ViewModels.UserViewModel
-@using Microsoft.AspNet.Identity
 
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Изменить учетную запись";
 }
 
-<h2>Manage</h2>
+    <div id="edit-info"
+         class="form-group border border-primary mb-3">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h4 class="text-center bg-success pb-2">Сменить данные профиля</h4>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <p>
-            <label>@Html.DisplayNameFor(x => x.UserName)</label><br />
-            @Html.EditorFor(x => x.UserName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(x => x.UserName)
-        </p>
-        <p>
-            <label>@Html.DisplayNameFor(x => x.Email)</label><br />
-            @Html.EditorFor(x => x.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(x => x.Email)
-        </p>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Edit Info" class="btn btn-default" />
+            <div class="form-group m-md-auto d-flex justify-content-center flex-column">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <label class="control-label col-md-2 mx-auto text-center">
+                    @Html.DisplayNameFor(x => x.UserName)
+                </label>
+                <div class="col-md-10 mx-auto my-2 d-flex justify-content-center w-50">
+                    @Html.EditorFor(x => x.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x => x.UserName)
+                </div>
+                <label class="control-label col-md-2 mx-auto text-center">
+                    @Html.DisplayNameFor(x => x.Email)
+                </label>
+                <div class="col-md-10 mx-auto my-2 d-flex justify-content-center w-50">
+                    @Html.EditorFor(x => x.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x => x.Email)
+                </div>
             </div>
-        </div>
-    </div>
-}
 
-<div id="change-password">
+            <div class="form-group w-50 m-md-auto text-center">
+                <div class="col-md-offset-2 col-md-10 mx-auto my-2">
+                    <input type="submit" value="Сохранить изменения" id="edit-info-button" class="btn btn-outline-success" />
+                </div>
+            </div>
+        }
+    </div>
+
+<div id="change-password" class="border border-primary mb-3 justify-content-center">
     @Html.Action("ChangePassword", "Account")
 </div>
+@Scripts.Render("~/bundles/editinfo")
 @Scripts.Render("~/bundles/changepassword")
 
 
 
-<div>
-    <button type="button" class="btn btn-outline-primary"
+<div id="delete-account" class="form-group border border-primary mb-3 text-center">
+    <h4 class="text-center bg-danger pb-2">Удаление аккаунта</h4>
+    <button type="button" class="btn btn-outline-danger text-center m-4" id="delete-acc-button"
             onclick="location.href =
         '@Url.Action("Delete", "Account")'">
-        Delete Account
+        Удалить учетную запись
     </button>
 </div>

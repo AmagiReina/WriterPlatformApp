@@ -52,7 +52,9 @@ function SetRating() {
         data: JSON.stringify(rating),
         url: "/Rating/Add",
         success: function (result) {
-            location.reload();
+            alertify.set('notifier', 'position', 'bottom-left');
+            setTimeout(alertify.notify('Рейтинг поставлен', 'success', 2), 60000);
+            setTimeout(location.reload(), 180000);
         },
         error: function () {
             alert("failed");

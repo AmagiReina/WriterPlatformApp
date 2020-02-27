@@ -50,7 +50,7 @@
                 #endregion
 
                 #region Добавление тестовых произведений
-                db.Titles.AddOrUpdate(
+                /*db.Titles.AddOrUpdate(
                         new Title
                         {
                             TitleName = "Test",
@@ -139,7 +139,7 @@
                             GenreId = 2,
                             UserProfilesId = admin.Id
                         }
-                );
+                );*/
                 #endregion
 
                 #region Добавляем UserProfile            

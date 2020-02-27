@@ -4,64 +4,74 @@
     ViewBag.Title = Model.TitleName.Trim();
 }
 
-<h2>Информация о @Html.DisplayFor(model => model.TitleName)</h2>
-
 <div>
-    <hr />
+    <p>
+        @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-outline-warning" })
+    </p>
+</div>
+
+<div class="jumbotron jumbotron-fluid border border-info rounded-sm bg-white">
     @Html.HiddenFor(model => model.Id)
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TitleName)
-        </dt>
+    <div class="container d-flex">
+        <h1 class="display-4 text-center d-flex align-items-center">
+            @Html.DisplayNameFor(model => model.TitleName) : @Html.DisplayFor(model => model.TitleName)
+        </h1>
 
-        <dd>
-            @Html.DisplayFor(model => model.TitleName)
-        </dd>
+        <div class="container d-flex flex-column">
+            <div class="container d-flex mb-3 justify-content-center">
+                <p class="font-italic text-primary text-center mr-2">
+                    @Html.DisplayNameFor(model => model.PublicationDate) :
+                </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PublicationDate)
-        </dt>
+                <p class="font-weight-bold text-success text-center">
+                    @Html.DisplayFor(model => model.PublicationDate)
+                </p>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.PublicationDate)
-        </dd>
+            <div class="container d-flex mb-3 justify-content-center">
+                <p class="font-italic text-primary text-center mr-2">
+                    @Html.DisplayNameFor(model => model.Rating) :
+                </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
+                <p class="font-weight-bold text-success text-center">
+                    @Html.DisplayFor(model => model.Rating)
+                </p>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
+            <div class="container d-flex mb-3 justify-content-center">
+                <p class="font-italic text-primary text-center mr-2">
+                    @Html.DisplayNameFor(model => model.Genres.GenreName) :
+                </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Genres.GenreName)
-        </dt>
+                <p class="font-weight-bold text-success text-center">
+                    @Html.DisplayFor(model => model.Genres.GenreName)
+                </p>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Genres.GenreName)
-        </dd>
+            <div class="container d-flex mb-3 justify-content-center">
+                <p class="font-italic text-primary text-center mr-2">
+                    @Html.DisplayNameFor(model => model.UserProfiles.UserName) :
+                </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserProfiles.UserName)
-        </dt>
+                <p class="font-weight-bold text-success text-center">
+                    @Html.DisplayFor(model => model.UserProfiles.UserName)
+                </p>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserProfiles.UserName)
-        </dd>
-    </dl>
-    <button type="button" class="btn btn-primary btn-outline-primary">
-    @Html.ActionLink("Прочесть", "ReadFile", new { id = Model.Id})</button>
+            <p class="text-center">
+                @Html.ActionLink("Прочесть", "ReadFile", new { id = Model.Id }, new { @class = "btn btn-outline-success" })
+            </p>
+            @Scripts.Render("~/bundles/ajaxratingscript")
+            <div id="ratingSection" class="d-flex justify-content-center">
+
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Назад", "Index")
-</p>
-@Scripts.Render("~/bundles/ajaxratingscript")
-<div id="ratingSection">
 
-</div>
+
 @Scripts.Render("~/bundles/ajaxmessagescript")
 @Scripts.Render("~/bundles/moment")
-<div id="commentSection">
+<div id="commentSection" class="jumbotron jumbotron-fluid border border-info rounded-sm">
 
 </div>

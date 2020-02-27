@@ -40,7 +40,7 @@
                         TitleName = c.String(),
                         PublicationDate = c.DateTime(nullable: false),
                         Rating = c.Int(nullable: false),
-                        ContentPath = c.String(),
+                        ContentPath = c.String(nullable: false),
                         GenreId = c.Int(nullable: false),
                         UserProfilesId = c.String(maxLength: 128),
                     })

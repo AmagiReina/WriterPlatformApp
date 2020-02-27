@@ -2,7 +2,6 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +17,7 @@ namespace WriterPlatformApp.WEB.Controllers
     public class TitleController : Controller
     {
         private readonly TitleBOImpl titleBo;
+        private readonly GenreBOImpl genreBo;
         private readonly IMapper mapper;
         private readonly int pageSize = 9;
         private const int NUMBER_ONE = 1;
@@ -25,6 +25,7 @@ namespace WriterPlatformApp.WEB.Controllers
         public TitleController(IMapper mapper)
         {
             titleBo = NinjectConfig.GetTitleBO();
+            genreBo = NinjectConfig.GetGenreBO();
             this.mapper = mapper;
         }
 
@@ -62,29 +63,46 @@ namespace WriterPlatformApp.WEB.Controllers
         [HttpPost]
         public ActionResult Create(TitleViewModel title, HttpPostedFileBase uploadPdfFile)
         {
+            string folderPath = Server.MapPath("~/Files/");
             if (ModelState.IsValid)
             {
-                using (var binaryReader = new BinaryReader(uploadPdfFile.InputStream))
+                if (titleBo.SearchByTitleName(title.TitleName).FirstOrDefault() == null)
                 {
-                    if (uploadPdfFile != null && uploadPdfFile.ContentLength > 0)
-                    {                       
-                        PdfSaveModule pdfFile = new PdfSaveModule(
-                            title.TitleName + title.UserProfilesId, Server.MapPath("~/Files/"));                   
-                        uploadPdfFile.SaveAs(Server.MapPath("~/Files/") + pdfFile.fileName);
+                    PdfSaveModule pdf = new PdfSaveModule(uploadPdfFile);
+                    string fileName = pdf.GenerateFileName(title);
+                    string path = pdf.GenerateFilePath(fileName, folderPath);
 
-                        var path = pdfFile.GetPath();
-                        title.ContentPath = path;                      
-                    }
-                }
-                title.UserProfilesId = User.Identity.GetUserId();
-                var titleBO = mapper.Map<TitleViewModel, TitleBO>(title);
-                titleBo.SetStart(titleBO);
-                titleBo.Save(titleBO);
+                    pdf.SaveFileInFolder(path);
+
+                    title.ContentPath = pdf.GetPath(folderPath, fileName);
+
+
+                    title.UserProfilesId = User.Identity.GetUserId();
+                    var titleBO = mapper.Map<TitleViewModel, TitleBO>(title);
+                    titleBo.SetStart(titleBO);
+                    titleBo.Save(titleBO);
+                }             
             }
             else
+            {
+                ModelState.AddModelError("", "Нужно загрузить файл");
                 return View(title);
+            }
+                
 
             return RedirectToAction("Index");
+        }
+
+        /**
+         * Список жанров
+         * */
+        public JsonResult GetGenres()
+        {
+            IEnumerable<GenreBO> genres = genreBo.GetAll();
+
+            var genresList = mapper.Map<IEnumerable<GenreBO>, List<GenreViewModel>>(genres);
+
+            return Json(genresList, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -92,11 +110,11 @@ namespace WriterPlatformApp.WEB.Controllers
         {
             var title = titleBo.FindById(id);
             byte[] fileBytes = null;
-            if (title != null)
+            if (title != null && title.ContentPath != null)
             {
-                string titlePath = Server.MapPath("~/Files/") + title.TitleName + ".pdf";
+                string titlePath = title.ContentPath;
                 fileBytes = PdfSaveModule.ReadFile(titlePath);             
-            }
+            } 
             return File(fileBytes, "application/pdf");
         }
 

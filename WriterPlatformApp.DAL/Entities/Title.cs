@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WriterPlatformApp.DAL.Entities
 {
@@ -15,6 +16,7 @@ namespace WriterPlatformApp.DAL.Entities
 
         public int Rating { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
         public string ContentPath { get; set; }
 
         public int GenreId { get; set; }

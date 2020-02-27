@@ -128,6 +128,11 @@ namespace WriterPlatformApp.DAL.UnitOfWork
             await db.SaveChangesAsync();
         }
 
+        public void Save()
+        {
+            db.SaveChanges();
+        }
+
 
         public virtual void Dispose(bool disposing)
         {

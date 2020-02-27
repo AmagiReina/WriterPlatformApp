@@ -56,10 +56,14 @@ namespace WriterPlatformApp.WEB
             bundles.Add(new ScriptBundle("~/bundles/titleindexscript").Include(
                      "~/Scripts/titleindexscript.js"));
 
-
-
             bundles.Add(new ScriptBundle("~/bundles/changepassword").Include(
                      "~/Scripts/changepwdscript.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/editinfo").Include(
+                     "~/Scripts/editinfoscript.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/titlecreatescript").Include(
+                     "~/Scripts/titlecreatescript.js"));
         }
     }
 }

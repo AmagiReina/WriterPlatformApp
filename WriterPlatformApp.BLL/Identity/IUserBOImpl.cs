@@ -23,7 +23,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
         /**
          * Удаление пользователя
          * */
-        Task<OperationDetails> Remove(UserBO userBo);
+        void Remove(UserBO userBo);
         /**
          * Изменить данные пользователя
          * */

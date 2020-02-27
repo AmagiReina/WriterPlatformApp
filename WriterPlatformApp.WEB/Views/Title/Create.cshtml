@@ -1,18 +1,17 @@
 ﻿@model WriterPlatformApp.WEB.ViewModels.TitleViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Добавить произведение";
 }
 
-<h2>Create</h2>
+<h2>Добавить произведение</h2>
 
 @using (Html.BeginForm("Create", "Title", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>TitleViewModel</h4>
-    <hr />
+
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(model => model.TitleName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -25,26 +24,32 @@
     <div class="form-group">
         @Html.LabelFor(model => model.GenreId, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.GenreId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownList("GenreId", new SelectList(string.Empty, "Value", "Text"),
+                                new { @class = "form-control", @style = "width: 250px;"})
             @Html.ValidationMessageFor(model => model.GenreId, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        <div class="control-label col-md-2">Файл произведения</div>
-        <div class="col-md-10">
-            <input type="file" class="form-control" name="uploadPdfFile" />
+        <div class="custom-file">
+            <div class="control-label col-md-2 mb-3">Файл произведения</div>
+            <div class="col-md-10 ml-3">
+                <input type="file" class="form-control custom-file-input" name="uploadPdfFile" />
+                <label class="custom-file-label" for="uploadPdfFile">Загрузить файл</label>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" value="Добавить" class="btn btn-outline-primary" />
         </div>
     </div>
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="form-group">
+   @Html.ActionLink("Обратно к произведениям", "Index", null, new { @class = "btn btn-outline-primary ml-3" } )
 </div>
+
+@Scripts.Render(("~/bundles/titlecreatescript"))

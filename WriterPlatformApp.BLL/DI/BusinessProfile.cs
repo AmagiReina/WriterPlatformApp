@@ -42,7 +42,6 @@ namespace WriterPlatformApp.BLL.DI
 
             // ChangePasswordBO -> UserProfile
             CreateMap<UserProfile, ChangePasswordBO>()
-            .ForMember(dest => dest.OldPassword, opt => opt.MapFrom(x => x.Password))
             .ForMember(dest => dest.NewPassword, opt => opt.Ignore())
             .ConstructUsing(c => DependencyResolver.Current.GetService<ChangePasswordBO>());
             CreateMap<ChangePasswordBO, UserProfile>()
@@ -51,7 +50,6 @@ namespace WriterPlatformApp.BLL.DI
 
             // ChangePasswordBO -> User
             CreateMap<ApplicationUser, ChangePasswordBO>()
-            .ForMember(dest => dest.OldPassword, opt => opt.MapFrom(x=> x.PasswordHash))
             .ForMember(dest => dest.NewPassword, opt => opt.Ignore())
             .ConstructUsing(c => DependencyResolver.Current.GetService<ChangePasswordBO>());
             CreateMap<ChangePasswordBO, ApplicationUser>()

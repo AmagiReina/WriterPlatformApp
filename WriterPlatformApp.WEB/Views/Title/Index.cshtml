@@ -8,23 +8,24 @@
 
 <!--Control Panel-->
 <div class="container border border-primary rounded-sm">
-    <div class="container mt-3">
+    <div class="container my-3">
         <!--Add New Title-->
-        <div class="row mb-1">
+        <div class="row mb-2">
             <div class="col-sm">
-                <p class="btn btn-outline-primary" style="background-color: white">
-                    @Html.ActionLink("Добавить произведение", "Create")
+                <p class="m-0">
+                    @Html.ActionLink("Добавить произведение", "Create", null,
+                   new { @class = "btn btn-outline-success" })
                 </p>
             </div>
         </div>
         <!--End Add New Title-->
         <!--Search Panel-->
-        <div class="row mb-2 md-2">
+        <div class="row mb-2">
             <div class="col-sm">
                 <form action="#" method="get" id="searchForm" class="input-group">
-                    <div class="input-group-btn btn-primary">
+                    <div class="input-group-btn btn-outline-warning">
                         <select name="search_param" id="search_param"
-                                class="btn btn-default dropdown-toggle"
+                                class="btn btn-outline-warning dropdown-toggle"
                                 data-toggle="dropdown">
                             <option disabled value="">Выберите пункт:</option>
                             <option value="author">Автор</option>
@@ -35,7 +36,7 @@
                     <input type="text" class="form-control" id="search_text"
                            name="name" placeholder="Поиск....">
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" type="submit" id="search_submit">
+                        <button class="btn btn-outline-danger" type="submit" id="search_submit">
                             <span class="fas fa-search"></span>
                         </button>
                     </span>
@@ -45,20 +46,22 @@
         <!--End Search Panel-->
         <!--Sort Panel-->
         <div class="row mb-2">
-            <div class="btn-group" role="group" style="background-color: white">
-                <div class="btn-group" role="group">
-                    <button id="sort-button" type="button"
-                            class="btn btn-primary dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        Сортировать
-                    </button>
-                    <div class="dropdown-menu"
-                         id="menu-sort"
-                         aria-labelledby="sort-button">
-                        <a class="dropdown-item" id="genre-sort">По жанру</a>
-                        <a class="dropdown-item" id="rating-sort">По рейтингу</a>
-                        <a class="dropdown-item" id="comment-sort">По кол-ву комментариев</a>
+            <div class="col-sm">
+                <div class="btn-group" role="group" style="background-color: white">
+                    <div class="btn-group" role="group">
+                        <button id="sort-button" type="button"
+                                class="btn btn-outline-dark dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            Сортировать
+                        </button>
+                        <div class="dropdown-menu"
+                             id="menu-sort"
+                             aria-labelledby="sort-button">
+                            <a class="dropdown-item" id="genre-sort">По жанру</a>
+                            <a class="dropdown-item" id="rating-sort">По рейтингу</a>
+                            <a class="dropdown-item" id="comment-sort">По кол-ву комментариев</a>
+                        </div>
                     </div>
                 </div>
             </div>

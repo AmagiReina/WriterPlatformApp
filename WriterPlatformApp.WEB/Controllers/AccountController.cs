@@ -9,6 +9,7 @@ using WriterPlatformApp.BLL.BO;
 using WriterPlatformApp.BLL.Identity;
 using WriterPlatformApp.BLL.Implementatiton;
 using WriterPlatformApp.WEB.App_Start;
+using WriterPlatformApp.WEB.Helpers;
 using WriterPlatformApp.WEB.ViewModels;
 
 namespace WriterPlatformApp.WEB.Controllers
@@ -17,6 +18,7 @@ namespace WriterPlatformApp.WEB.Controllers
     {
         private readonly IUserBOImpl userBo;
         private readonly IMapper mapper;
+        private AlertStatus status;
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -28,6 +30,7 @@ namespace WriterPlatformApp.WEB.Controllers
         public AccountController(IMapper mapper)
         {
             userBo = NinjectConfig.GetUserBO();
+            status = new AlertStatus();
             this.mapper = mapper;
         }
 
@@ -35,6 +38,7 @@ namespace WriterPlatformApp.WEB.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            AuthenticationManager.SignOut();
             return View();
         }
 
@@ -42,17 +46,18 @@ namespace WriterPlatformApp.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
+
             if (ModelState.IsValid)
             {            
                 UserBO user = mapper.Map<LoginViewModel, UserBO>(model);
                 ClaimsIdentity claim = await userBo.Authenticate(user);
                 if (claim == null && !userBo.GetLocked(user))
                 {
-                    ModelState.AddModelError("", "Неверный логин или пароль");
+                    ViewBag.LoginResult = status.GetStatusLogin();
                 } 
                 else if  (claim == null && userBo.GetLocked(user))
                 {
-                    ModelState.AddModelError("", "Пользователь удален");
+                    ViewBag.LoginResult = status.GetStatusDeleted();
                 }
                 else
                 {
@@ -103,8 +108,8 @@ namespace WriterPlatformApp.WEB.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
         [HttpGet]
+        [Authorize]
         public ActionResult Manage()
         {
             string userId = User.Identity.GetUserId();
@@ -117,6 +122,7 @@ namespace WriterPlatformApp.WEB.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Manage(UserViewModel model)
         {
             string UserId = User.Identity.GetUserId();
@@ -131,27 +137,34 @@ namespace WriterPlatformApp.WEB.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult ChangePassword()
         {
             return PartialView();
         }
 
         [HttpPost]
+        [Authorize]
         public JsonResult ChangePassword(ChangePasswordViewModel model)
         {         
             string UserId = User.Identity.GetUserId();
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 ChangePasswordBO user = mapper.Map<ChangePasswordViewModel, 
                     ChangePasswordBO>(model);
                 user.Id = UserId;
                 userBo.ChangePassword(user);
                 AuthenticationManager.SignOut();
+            } else
+            {
+                ModelState.AddModelError("", "Ошибка");
             }
             
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Authorize]
         public ActionResult Delete()
         {
             string userId = User.Identity.GetUserId();

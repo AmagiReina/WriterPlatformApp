@@ -7,21 +7,31 @@
 
 function changePassword() {
     var data = {
-        OldPassword: $("#OldPassword").val(),
         NewPassword: $("#NewPassword").val(),
         ConfirmNewPassword: $("#ConfirmNewPassword").val()
     };
-    $.ajax({
-        type: "POST",
-        datatype: "json",
-        contentType: "application/json;charset=utf-8",
-        url: "/Account/ChangePassword",
-        data: JSON.stringify(data),
-        success: function (response) {
-            window.location.href = "/Account/Login";
-        },
-        error: function (error) {
-            
-        }
-    });
+        $.ajax({
+            type: "POST",
+            datatype: "json",
+            contentType: "application/json;charset=utf-8",
+            url: "/Account/ChangePassword",
+            data: JSON.stringify(data),
+            success: function (response) {
+                if (response.NewPassword == response.ConfirmNewPassword) {
+
+                    $("#modal-text").text("Ваш пароль успешно изменен.");
+                    $("#modal-dialog").modal("toggle");
+
+
+                    $("#modal-dialog").on("hidden.bs.modal", function () {
+                        window.location.href = "/Account/Login";
+                    });
+                }
+               
+            },
+            error: function (error) {
+                console.log("error");
+            }
+        });
+ 
 }

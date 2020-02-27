@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WriterPlatformApp.BLL.BO;
 using WriterPlatformApp.BLL.Implementatiton;
@@ -14,8 +11,8 @@ namespace WriterPlatformApp.WEB.Controllers
 {
     public class RatingTypeController : Controller
     {
-        private RatingTypeBOImpl ratingTypeBo;
-        private IMapper mapper;
+        private readonly RatingTypeBOImpl ratingTypeBo;
+        private readonly IMapper mapper;
 
         public RatingTypeController(IMapper mapper)
         {

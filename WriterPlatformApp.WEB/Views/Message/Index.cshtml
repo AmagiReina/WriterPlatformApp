@@ -1,36 +1,38 @@
 ﻿@model IEnumerable<WriterPlatformApp.WEB.ViewModels.MessageViewModel>
 
 
-<h2>Comments</h2>
+    <div class="container">
+        <h2 class="display-4 text-center">Комментарии</h2>
 
-<div class="list-group">
-    @foreach (var item in Model)
-    {
-        <div class="card border-dark mb-3" style="max-width: 20rem;">
-            <div class="card-header">
-                <h5 class="mb-1">@item.UserProfiles.UserName</h5>
-            </div>
-            <div div class="card-body">
-                <p class="mb-1">@item.MessageText</p>
-                <small>@item.MessageDate</small>
-            </div>
+        <div class="list-group mx-2">
+            @foreach (var item in Model)
+            {
+                <div class="card border-dark my-3 w-100">
+                    <div class="card-header">
+                        <h5 class="mb-1">@item.UserProfiles.UserName</h5>
+                    </div>
+                    <div div class="card-body">
+                        <p class="mb-1">@item.MessageText</p>
+                        <small>@item.MessageDate</small>
+                    </div>
+                </div>
+            }
+
         </div>
-    }
 
-</div>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="message-text" class="font-italic ml-3 mb-3">Написать комментарий</label>
+                <div class="col-md-12">
+                    <textarea class="form-control w-100" rows="3" style="max-width: 100%;" id="message-text" name="message-text"></textarea>
+                </div>
+            </div>
 
-<div class="form-horizontal">
-    <div class="form-group">
-        <label for="message-text"></label>
-        <div class="col-md-10">
-            <textarea id="message-text" name="message-text" ></textarea>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Добавить комментарий" class="btn btn-outline-success" id="add-comment"
+                           onclick="return AddMessage()" />
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Add" class="btn btn-default" id="add-comment"
-                   onclick="return AddMessage()"/>
-        </div>
-    </div>
-</div>

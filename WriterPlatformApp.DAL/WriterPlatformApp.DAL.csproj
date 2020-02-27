@@ -68,9 +68,9 @@
     <Compile Include="Entities\UserProfile.cs" />
     <Compile Include="Identity\ApplicationRoleManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
-    <Compile Include="Migrations\202002190356294_First_Migration.cs" />
-    <Compile Include="Migrations\202002190356294_First_Migration.designer.cs">
-      <DependentUpon>202002190356294_First_Migration.cs</DependentUpon>
+    <Compile Include="Migrations\202002260559292_First_Migration.cs" />
+    <Compile Include="Migrations\202002260559292_First_Migration.designer.cs">
+      <DependentUpon>202002260559292_First_Migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,8 +84,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002190356294_First_Migration.resx">
-      <DependentUpon>202002190356294_First_Migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002260559292_First_Migration.resx">
+      <DependentUpon>202002260559292_First_Migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

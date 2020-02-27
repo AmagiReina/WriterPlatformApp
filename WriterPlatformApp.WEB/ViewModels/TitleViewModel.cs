@@ -15,6 +15,7 @@ namespace WriterPlatformApp.WEB.ViewModels
         [Display(Name = "Рейтинг")]
         public int Rating { get; set; }
         public string ContentPath { get; set; }
+        [Display(Name = "Жанр")]
         public int GenreId { get; set; }
         public string UserProfilesId { get; set; }
         public GenreViewModel Genres { get; set; }

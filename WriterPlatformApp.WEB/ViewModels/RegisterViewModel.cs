@@ -9,6 +9,8 @@ namespace WriterPlatformApp.WEB.ViewModels
         public string UserName { get; set; }
         [Required]
         [Display(Name = "E-Mail")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]

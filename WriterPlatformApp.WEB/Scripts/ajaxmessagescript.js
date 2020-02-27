@@ -40,6 +40,8 @@ function AddMessage() {
         url: "/Message/Add",
         success: function (result) {
             getAllMessages();
+            alertify.set('notifier', 'position', 'bottom-left');
+            alertify.notify('Комментарий написан', 'success', 2);
         },
         error: function () {
             alert("failed");

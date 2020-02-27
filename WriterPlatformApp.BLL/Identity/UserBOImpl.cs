@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -132,18 +133,17 @@ namespace WriterPlatformApp.BLL.Implementatiton
 
             if (user != null && !user.IsLocked && profile != null && !profile.isLocked)
             {
-                IdentityResult result = await unitOfWork.UserManager.ChangePasswordAsync
-                    (user.Id, changePasswordBo.OldPassword, changePasswordBo.NewPassword);
-                               
+                user.PasswordHash = unitOfWork.UserManager.PasswordHasher.HashPassword(changePasswordBo.NewPassword);
+                IdentityResult resultReset = await unitOfWork.UserManager.UpdateAsync(user);
+
                 profile.Password = user.PasswordHash;
-                
-                if (result.Succeeded)
+                if (resultReset.Succeeded)
                 {
                     unitOfWork.UserProfile.Update(profile);
                     unitOfWork.UserProfile.Save();
                     await unitOfWork.SaveAsync();
                 }
-                return new OperationDetails(true, "Пароль пользователя успешно изменен", "");
+                return new OperationDetails(false, "Не удалось сменить пароль", "");
             }
             else
             {
@@ -151,30 +151,25 @@ namespace WriterPlatformApp.BLL.Implementatiton
             }
         }
 
-        public async Task<OperationDetails> Remove(UserBO userBo)
+        public void Remove(UserBO userBo)
         {
-            ApplicationUser user = await unitOfWork.UserManager.FindByNameAsync(userBo.UserName);
+            ApplicationUser user = unitOfWork.UserManager.FindByName(userBo.UserName);
 
             if (user != null && user.IsLocked == false)
             {
-                user.UserName = "Anonymous";
+                Random random = new Random();
+                user.UserName = "Anonymous" + random.Next();
                 user.IsLocked = true;
-                IdentityResult result = await unitOfWork.UserManager.UpdateAsync(user);
+                // сохраняем профиль
+                var profile = unitOfWork.UserProfile.GetAll().Where(x => x.Id == user.Id)
+                    .FirstOrDefault();
+                profile.UserName = user.UserName;
+                unitOfWork.UserProfile.Save();
+                IdentityResult result = unitOfWork.UserManager.Update(user);
                 if (result.Succeeded)
                 {
-                    await unitOfWork.SaveAsync();
-                    // сохраняем профиль
-                    var profile = unitOfWork.UserProfile.GetAll().Where(x => x.Id == user.Id)
-                        .FirstOrDefault();
-                    profile.UserName = user.UserName;
-                    unitOfWork.UserProfile.Save();
-                    
+                    unitOfWork.SaveAsync();
                 }
-                return new OperationDetails(true, "Пользователь удален", "");
-            }
-            else
-            {
-                return new OperationDetails(false, "Пользователя с таким именем не существует", "UserName");
             }
         }
 
