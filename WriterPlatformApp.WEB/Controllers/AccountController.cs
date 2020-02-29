@@ -66,7 +66,7 @@ namespace WriterPlatformApp.WEB.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Title");
                 }
             }
             return View(model);
@@ -91,7 +91,7 @@ namespace WriterPlatformApp.WEB.Controllers
 
                 OperationDetails operationDetails = await userBo.Create(user);
                 if (operationDetails.Succeeded)
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Title");
                 else
                     ModelState.AddModelError(operationDetails.Property,
                         operationDetails.Message);
@@ -99,13 +99,13 @@ namespace WriterPlatformApp.WEB.Controllers
             }
             else return View(model);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Title");
         }
 
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Title");
         }
 
         [HttpGet]

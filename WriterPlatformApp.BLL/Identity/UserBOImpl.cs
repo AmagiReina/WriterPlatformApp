@@ -109,12 +109,14 @@ namespace WriterPlatformApp.BLL.Implementatiton
                 profile.UserName = userBo.UserName;
                 profile.Email = userBo.Email;
 
+                unitOfWork.UserProfile.Update(profile);
+                unitOfWork.UserProfile.Save();
+
                 IdentityResult result = await unitOfWork.UserManager.UpdateAsync(user);
               
                 if (result.Succeeded)
                 {
-                    unitOfWork.UserProfile.Update(profile);
-                    unitOfWork.UserProfile.Save();
+
                     await unitOfWork.SaveAsync();              
                 }
 
