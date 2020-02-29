@@ -3,6 +3,7 @@
     LoadDefault("start");
     StartSearchEngine();
     StartSortEngine();
+    SortDropdownHide();
 });
 
 function LoadDefault(type) {
@@ -22,6 +23,16 @@ function LoadDefault(type) {
 function SortDropdownActivate() {
     $("#sort-button").on("click", function () {
         $('#menu-sort').toggle();
+    });
+
+    $("#sort-button").on("mouseenter", function () {
+        $('#menu-sort').toggle();
+    });
+}
+
+function SortDropdownHide() {
+    $("#sort-button").on("mouseleave", function () {
+        $('#menu-sort').hide();
     });
 }
 
