@@ -7,13 +7,13 @@ namespace WriterPlatformApp.DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class First_Migration : IMigrationMetadata
+    public sealed partial class FirstMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(First_Migration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(FirstMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202002260559292_First_Migration"; }
+            get { return "202003090605296_First-Migration"; }
         }
         
         string IMigrationMetadata.Source

@@ -34,7 +34,7 @@ namespace WriterPlatformApp.BLL.Implementatiton
             title.Genres = genres;
             title.UserProfiles = users;
 
-            ICollection<Message> messagesList = messages
+            List<Message> messagesList = messages
                 .Where(x => x.TitleId == id).ToList();
 
             if (messagesList != null)

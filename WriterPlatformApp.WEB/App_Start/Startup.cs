@@ -11,12 +11,13 @@ namespace WriterPlatformApp.WEB.App_Start
 {
     public class Startup
     {
+        public readonly int minutesForLogout = 5;
         public void Configuration(IAppBuilder app)
         {
             app.CreatePerOwinContext<IUserBOImpl>(NinjectConfig.GetUserBO);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                ExpireTimeSpan = TimeSpan.FromMinutes(5),
+                ExpireTimeSpan = TimeSpan.FromMinutes(minutesForLogout),
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login")
             });

@@ -25,7 +25,37 @@ namespace WriterPlatformApp.DAL.DB
 
         public virtual DbSet<RatingType> RatingTypes { get; set; }
 
-    
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Title>()
+                .HasMany(t => t.Messages)               
+                .WithRequired()
+                .HasForeignKey(m => m.TitleId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Title>()
+                .HasRequired(t => t.Genres)
+                .WithMany()
+                .HasForeignKey<int>(t => t.GenreId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Rating>()
+              .HasRequired(r => r.RatingTypes)
+              .WithMany()
+              .HasForeignKey<int>(r => r.RatingTypeId)
+              .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Rating>()
+              .HasRequired(r => r.Titles)
+              .WithMany()
+              .HasForeignKey<int>(r => r.TitleId)
+              .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
+           
+        }
+
     }
 }
 

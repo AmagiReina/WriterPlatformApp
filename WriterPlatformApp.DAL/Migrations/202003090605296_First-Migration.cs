@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class First_Migration : DbMigration
+    public partial class FirstMigration : DbMigration
     {
         public override void Up()
         {
@@ -27,7 +27,7 @@
                         TitleId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Titles", t => t.TitleId, cascadeDelete: true)
+                .ForeignKey("dbo.Titles", t => t.TitleId)
                 .ForeignKey("dbo.UserProfiles", t => t.UserProfilesId)
                 .Index(t => t.UserProfilesId)
                 .Index(t => t.TitleId);
@@ -45,7 +45,7 @@
                         UserProfilesId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Genres", t => t.GenreId, cascadeDelete: true)
+                .ForeignKey("dbo.Genres", t => t.GenreId)
                 .ForeignKey("dbo.UserProfiles", t => t.UserProfilesId)
                 .Index(t => t.GenreId)
                 .Index(t => t.UserProfilesId);
@@ -134,8 +134,8 @@
                         TitleId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.RatingTypes", t => t.RatingTypeId, cascadeDelete: true)
-                .ForeignKey("dbo.Titles", t => t.TitleId, cascadeDelete: true)
+                .ForeignKey("dbo.RatingTypes", t => t.RatingTypeId)
+                .ForeignKey("dbo.Titles", t => t.TitleId)
                 .ForeignKey("dbo.UserProfiles", t => t.UserProfilesId)
                 .Index(t => t.RatingTypeId)
                 .Index(t => t.UserProfilesId)

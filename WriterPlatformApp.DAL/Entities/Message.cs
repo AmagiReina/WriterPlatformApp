@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WriterPlatformApp.DAL.Entities
 {
@@ -13,7 +14,8 @@ namespace WriterPlatformApp.DAL.Entities
         public DateTime MessageDate { get; set; }
 
         public string UserProfilesId { get; set; }
-
+    
+        [ForeignKey(nameof(Titles))]
         public int TitleId { get; set; }
 
         public UserProfile UserProfiles { get; set; }

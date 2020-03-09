@@ -63,19 +63,13 @@ namespace WriterPlatformApp.WEB.Controllers
         [HttpPost]
         public ActionResult Create(TitleViewModel title, HttpPostedFileBase uploadPdfFile)
         {
-            string folderPath = Server.MapPath("~/Files/");
             if (ModelState.IsValid)
             {
                 if (titleBo.SearchByTitleName(title.TitleName).FirstOrDefault() == null)
                 {
                     PdfSaveModule pdf = new PdfSaveModule(uploadPdfFile);
-                    string fileName = pdf.GenerateFileName(title);
-                    string path = pdf.GenerateFilePath(fileName, folderPath);
 
-                    pdf.SaveFileInFolder(path);
-
-                    title.ContentPath = pdf.GetPath(folderPath, fileName);
-
+                    pdf.Upload(title);
 
                     title.UserProfilesId = User.Identity.GetUserId();
                     var titleBO = mapper.Map<TitleViewModel, TitleBO>(title);
@@ -112,7 +106,7 @@ namespace WriterPlatformApp.WEB.Controllers
             byte[] fileBytes = null;
             if (title != null && title.ContentPath != null)
             {
-                string titlePath = title.ContentPath;
+                string titlePath = title.TitleName;
                 fileBytes = PdfSaveModule.ReadFile(titlePath);             
             } 
             return File(fileBytes, "application/pdf");
